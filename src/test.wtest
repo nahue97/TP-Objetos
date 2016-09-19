@@ -1,0 +1,277 @@
+import abrazos.*
+import celos.*
+import estados.*
+import personalidades.*
+import trabajos.*
+import relaciones.*
+import example.*
+import pruebas.*
+
+//abrazos
+//1)Hacer que un sim abrace a otro
+test "pepito abraza a carla y se ve su felicidad"{
+
+	pepito.abrazar(carla,abrazoComun)
+	assert.equals(7,pepito.nivelFelicidad())
+}
+
+test "pepito abraza a carla y se ve la felicidad de carla"{
+
+	pepito.abrazar(carla,abrazoComun)
+	assert.equals(9,carla.nivelFelicidad())
+	}
+//2)Saber cuanto valora un sim a otro
+test "carla valora a pepito pero pepito no tiene amigos"{
+
+	assert.equals(0,carla.valoracion(pepito))
+}
+
+test "carla se hace amigo de pepito y pepito valora a carla"{
+	carla.hacerseAmigoDe(pepito)
+	assert.equals(50,pepito.valoracion(carla))
+}
+//3) Saber quien es el amigo a quien valora más un sim
+test "pepito agrega muchos amigos e indica qué amigo es el más valorado"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.amigoMasValorado())
+}
+// amigos
+//4)Hacer que un sim se haga amigo de otro /6) Saber si un sim es amigo de otro
+test "pepito se hace amigo de leandro y se ve si pepito es amigo de este"{
+	pepito.hacerseAmigoDe(leandro)
+	assert.that(pepito.esAmigoDe(leandro))
+}
+//5)Hacer que dos sims se hagan amigos entre sí 
+test "pepito y leandro se vuelven amigos entre si y se ve si leandro es amigo de pepito"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(pepito.esAmigoDe(leandro))
+}
+
+test "pepito y leandro se vuelven amigos entre si y se ve si pepito es amigo de leandro"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(leandro.esAmigoDe(pepito))
+}
+
+
+//7) Preguntarle a un sim cuales son sus 4 amigos más antiguos
+test "Pepito agrega varios amigos y se fija a quien agrego ultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(juan,pepito.devolverUltimosAmigosPorIndice(0))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego anteultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.devolverUltimosAmigosPorIndice(1))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego antepenultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(leandro,pepito.devolverUltimosAmigosPorIndice(2))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego uno antes que el antepenultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(pepo,pepito.devolverUltimosAmigosPorIndice(3))
+}
+//8) Preguntarle a un sim cuales son sus 4 amigos más viejos
+test "Pepito agrega varios amigos y se fija a quien agrego primero"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(carla,pepito.devolverPrimerosAmigosPorIndice(0))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego segundo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(pepo,pepito.devolverPrimerosAmigosPorIndice(1))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego tercero"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(leandro,pepito.devolverPrimerosAmigosPorIndice(2))
+}
+
+test "Pepito agrega varios amigos y se fija a quien agrego cuarto"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.devolverPrimerosAmigosPorIndice(3))
+}
+
+// popularidad
+//9) Preguntarle a un sim cual es su nivel de popularidad
+test "Pepito agrega a varios amigos y muestra su nivel de popularidad"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(135.5,pepito.popularidad())
+}
+//10)Preguntarle a un sim si es el más popular de su circulo de amigos
+test "Pepito agrega a varios amigos y se fija si este es el más popular entre ellos"{
+	fixture.pepitoYsusAmigos()
+	assert.that(pepito.esElMasPopularEntreSusAmigos())
+}
+
+//relacion
+//11) Hacer que dos sims inicien una relacion  y 12) Saber si un sim forma parte de una relacion
+test "carla inicia una relacion con leandro, se chequea si leandro es parte de la relacion"{
+	fixture.carlaYLeandro()
+	assert.equals(leandro,carla.relacion().miembros().last())
+}
+
+test "carla inicia una relacion con leandro, se chequea si carla esta en pareja"{
+	fixture.carlaYLeandro()
+	assert.equals(carla,carla.relacion().miembros().first())
+}
+
+//13)Hacer que una relacion termine, haciendo que sus miembros dejen de formar parte de ella
+test "carla tiene una relacion con leandro, se termina y se chequea que carla esté soltera"{
+	fixture.carlaYLeandroTerminan()
+		assert.equals(soltero,carla.pareja())
+}
+
+test "leandro tiene una relacion con carla, se termina y se chequea que leandro esté soltero"{
+	fixture.carlaYLeandroTerminan()
+		assert.equals(soltero,leandro.pareja())
+}
+//14) Saber si una relacion terminó
+test " la relacion de carla y leandro terminó y se fija que la relacion se indique como terminada"{
+		fixture.carlaYLeandroTerminan()
+		assert.equals("Terminada",carla.relacion().estadoDeRelacion())
+}
+//15) Conocer el circulo de amigos de la relación
+test "carla y leandro forman una relacion y se ve el círculo de amigos de la relación"{
+		fixture.carlaYLeandro()
+		assert.equals(#{martha,pepa,pepito},carla.relacion().circuloDeAmigos())
+}
+//16)Conocer los miembros de una relacion
+test "carla y leandro forman una relacion. Se chequea que ambos sean miembros de esta"{
+		fixture.carlaYLeandro()
+		assert.equals([carla,leandro],carla.relacion().miembros())
+}
+//17)Saber si una relacion funciona
+test "carla y leandro tienen una relacion. Verificar si esta funciona"{
+		fixture.carlaYLeandro()
+		assert.that(carla.relacion().estaFuncionando())
+}
+//18)Saber si en una relacion se pudrio todo
+test "leandro y pepito tienen una relacion. Verificar si en esta se pudrió todo"{
+	fixture.leandroYPepito()
+	assert.that(leandro.relacion().sePudreTodo())
+}
+//19) Reestablecer una relacion terminada
+test "Carla y leandro terminan su relacion. Leandro comienza una relacion con Pepito. Carla reestablece su relacion con Pepito"{
+	fixture.carlaYLeandroTerminan()
+	fixture.leandroYPepito()
+	leandro.reestablecerRelacionCon(carla)
+	assert.that(carla.estaEnPareja())
+}
+
+//atraccion
+//20) Saber si un sim se siente atraido por otro
+test "carla se siente atraida por leandro"{
+	assert.that(carla.sienteAtraccionPor(leandro))
+}
+//21) Dada una coleccion de sims, encontrar los sims por los que se siente atraido otro sim
+test "Creamos una lista de sims y nos fijamos por quienes de estos se siente atraida Carla"{
+	assert.equals([pepo,leandro],carla.filtrarSimsAtractivos([pepa,martha,pepo,leandro]))
+}
+
+//conocimiento
+//22)Contarle una informacion a un sim
+test"se le agrega conocimiento a pepito y se ve si pepito tiene este conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	assert.that(pepito.conoce("holahola"))
+}
+//23)Saber cuan conocedor es un sim
+test"se le agrega conocimiento a pepito y se calcula su nivel de conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	assert.equals(14,pepito.nivelDeConocimiento())
+}
+//24)Saber si un sim tiene un conocimiento dado
+test "se le agrega un conocimiento a pepito. se fija si se agrego correctamente"{
+	fixture.contarleConocimientoAPepito()
+	assert.that(pepito.conocimiento().contains("anchoa"))
+}
+//25)Hacer que un sim tenga amnesia y se olvide todos sus conocimientos
+test "se le agrega conocimiento a pepito. Hacer que pepito tenga amnesia. Se verifica que haya perdido todo su conocimiento"{
+	fixture.contarleConocimientoAPepito()	
+	pepito.amnesia()
+	assert.that(pepito.conocimiento().isEmpty())
+}
+// estados
+//26)Hacer que un sim tenga un estado de animo particular. Si el sim ya tenía uno, se le va (vuelve a la normalidad) y es reemplazada por este.
+test"Pepito tiene un estado de animo normal. Pepito cambia de estado de animo a soñador. Se verifica que el estado haya cambiado"{
+	pepito.cambiarDeAnimo(soniador)
+	assert.equals(soniador,pepito.estadoDeAnimo())
+}
+
+test"Pepito tiene un estado de animo normal. Pepito cambia de estado de animo a soñador. Se verifica el nivel de felicidad de Pepito"{
+	pepito.cambiarDeAnimo(soniador)
+	assert.equals(1005,pepito.nivelFelicidad())
+}
+
+test"Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Se verifica que el conocimiento de pepito sea nulo por el cambio de estado de animo."{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	assert.that(pepito.conocimiento().isEmpty())
+}
+//27)Hacer que a un sim se le vaya su estado de animo actual(Y vuelva a la normalidad)
+test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez. Se verifica que el estado de animo de Pepito sea normal"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(normal,pepito.estadoDeAnimo())
+}
+
+test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez.  Se verifica que el nivel de felicidad vuelva a ser el mismo que antes de adquirir estado soñador"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(5,pepito.nivelFelicidad())
+}
+
+test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez. Se verifica que Pepito vuelve a adquirir sus conocimientos previos"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(#{"anchoa","holahola"},pepito.conocimiento())
+}
+// celos
+//28)Hacer que un sim se ponga celoso por cualquiera de los motivos presentados
+test "pepito adquiere amigos y se pone celoso por plata,chequeo de los amigos que quedaron"{
+	fixture.pepitoYsusAmigos()
+	pepito.ponerseCeloso(celosPorPlata)
+	assert.equals([carla],pepito.amigos())
+}
+
+test "pepito adquiere amigos y se pone celoso por plata,chequeo de la felicidad"{
+	fixture.pepitoYsusAmigos()
+	pepito.ponerseCeloso(celosPorPlata)
+	assert.equals(45,pepito.nivelFelicidad())
+}
+// dinero y trabajo
+//Hacer que un sim vaya a trabajar
+test "pepito un oficinista(tipo de trabajo aburrido) va a trabajar,chequeo del dinero total luego de trabajar"{
+	fixture.pepitoYsusAmigos()
+	pepito.trabajar()
+	assert.equals(1500,pepito.dinero())
+}
+
+test "pepito un oficinista(tipo de trabajo aburrido) va a trabajar,chequeo de la felicidad luego de trabajar"{
+	fixture.pepitoYsusAmigos()
+	pepito.trabajar()
+	assert.equals(50,pepito.nivelFelicidad())
+}
+
+test "carla una desocupada va a trabajar,chequear que el dinero total sea el mismo que antes de salir a trabajar"{
+	carla.trabajar()
+	assert.equals(100,carla.dinero())
+}
+
+test "carla una desocupada va a trabajar,chequea que la felicidad sea la misma que antes de salir a trabajar"{
+	carla.trabajar()
+	assert.equals(5,carla.nivelFelicidad())
+}
+
+//30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
+
+
+
+
+
+

@@ -1,0 +1,252 @@
+import abrazos.*
+import celos.*
+import estados.*
+import personalidades.*
+import trabajos.*
+import relaciones.*
+import example.*
+import pruebas.*
+
+//abrazos
+test "pepito abraza a carla y se ve su felicidad"{
+
+	pepito.abrazar(carla,abrazoComun)
+	assert.equals(7,pepito.nivelFelicidad())
+}
+test "pepito abraza a carla y se ve la felicidad de carla"{
+
+	pepito.abrazar(carla,abrazoComun)
+	assert.equals(9,carla.nivelFelicidad())
+	}
+test "carla valora a pepito"{
+
+	assert.equals(0,carla.valoracion(pepito))
+}
+test "pepito valora a carla"{
+	carla.hacerseAmigoDe(pepito)
+	assert.equals(50,pepito.valoracion(carla))
+}
+test "amigo mas valorado de pepito"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.amigoMasValorado())
+}
+// amigos
+test "pepito agrega a leandro a sus amigos"{
+	pepito.hacerseAmigoDe(leandro)
+	assert.that(pepito.esAmigoDe(leandro))
+}
+
+test "pepito y leandro se vuelven amigos entre si y se ve si leandro es amigo de pepito"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(pepito.esAmigoDe(leandro))
+}
+test "pepito y leandro se vuelven amigos entre si y se ve si pepito es amigo de leandro"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(leandro.esAmigoDe(pepito))
+}
+test "carla se hace amigo de ricardo y se ve si ricardo es amigo de carla"{
+	carla.hacerseAmigoDe(ricardo)
+	assert.that(carla.esAmigoDe(ricardo))
+}
+test "pepito y leandro se vuelven amigos entre si y se ve si leandro es amigo de pepito"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(pepito.esAmigoDe(leandro))
+}
+test "pepito y leandro se vuelven amigos entre si y se ve si pepito es amigo de leandro"{
+	pepito.seHacenAmigos(leandro)
+	assert.that(leandro.esAmigoDe(pepito))
+}
+test "carla se hace amigo de ricardo y se ve si ricardo es amigo de carla"{
+	carla.hacerseAmigoDe(ricardo)
+	assert.that(carla.esAmigoDe(ricardo))
+}
+test "de la lista de amigos de pepito el 1ero"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(carla,pepito.devolverPrimerosAmigosPorIndice(0))
+}
+test "de la lista de amigos de pepito el 2do"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(pepo,pepito.devolverPrimerosAmigosPorIndice(1))
+}
+test "de la lista de amigos de pepito el 3ero"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(leandro,pepito.devolverPrimerosAmigosPorIndice(2))
+}
+test "de la lista de amigos de pepito el 4to"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.devolverPrimerosAmigosPorIndice(3))
+}
+test "de la lista de amigos de pepito el ultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(juan,pepito.devolverUltimosAmigosPorIndice(0))
+}
+test "de la lista de amigos de pepito el anteultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(ricardo,pepito.devolverUltimosAmigosPorIndice(1))
+}
+test "de la lista de amigos de pepito el antepenultimo"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(leandro,pepito.devolverUltimosAmigosPorIndice(2))
+}
+test "de la lista de amigos de pepito el el 4to de atras"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(pepo,pepito.devolverUltimosAmigosPorIndice(3))
+}
+// popularidad
+test "nivel de popularidad de pepito"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(135.5,pepito.popularidad())
+}
+test "el nivel de popularidad de pepito es el mayor entre sus amigos"{
+	fixture.pepitoYsusAmigos()
+	assert.that(pepito.esElMasPopularEntreSusAmigos())
+}
+//relacion
+test "carla inicia una relacion con leandro, se ve si leandro es parte de la relacion"{
+	fixture.carlaYLeandro()
+	assert.equals(leandro,carla.relacion().miembros().last())
+}
+test "carla inicia una relacion con leandro, se ve si carla es parte de la relacion"{
+	fixture.carlaYLeandro()
+	assert.equals(carla,carla.relacion().miembros().first())
+}
+
+test"carla inicia una relacion con leandro, se chequea si carla esta en pareja"{
+	fixture.carlaYLeandro()
+	assert.that(carla.estaEnPareja())	
+}
+test"carla inicia una relacion con leandro,se chequea  si leandro esta en pareja"{
+	fixture.carlaYLeandro()
+	assert.that(leandro.estaEnPareja())	
+}
+
+test "carla tiene una relacion con leandro y se termina, chequeo de carla si esta soltera"{
+	fixture.carlaYLeandroTerminan()
+		assert.equals(soltero,carla.pareja())
+}
+test "leandro tiene una relacion con carla y se termina, chequeo de leandro si esta soltero"{
+	fixture.carlaYLeandroTerminan()
+		assert.equals(soltero,leandro.pareja())
+}
+test " la relacion de carla y leandro termino, chequeo del estado de relacion"{
+		fixture.carlaYLeandroTerminan()
+		assert.equals("Terminada",carla.relacion().estadoDeRelacion())
+}
+test "relacion entre carla y leandro,chequeo de la lista de amigos"{
+		fixture.carlaYLeandro()
+		assert.equals(#{martha,pepa,pepito},carla.relacion().circuloDeAmigos())
+}
+test "relacion entre carla y leandro, chequeo de sus miembros"{
+		fixture.carlaYLeandro()
+		assert.equals([carla,leandro],carla.relacion().miembros())
+}
+test "la relacion entre carla y leandro funciona"{
+		fixture.carlaYLeandro()
+		assert.that(carla.relacion().estaFuncionando())
+}
+test "la relacion entre pepito y leandro se pudre"{
+	fixture.leandroYPepito()
+	assert.that(leandro.relacion().sePudreTodo())
+}
+test "reestablecer la relacion terminada entre carla y leandro"{
+	fixture.carlaYLeandroTerminan()
+	fixture.leandroYPepito()
+	leandro.reestablecerRelacionCon(carla)
+	assert.that(carla.estaEnPareja())
+}
+
+//atraccion
+test "carla se siente atraido por leandro"{
+	assert.that(carla.sienteAtraccionPor(leandro))
+}
+test "los sims por los que carla se siente atraida"{
+	assert.equals([pepo,leandro],carla.filtrarSimsAtractivos([pepa,martha,pepo,leandro]))
+}
+
+//conocimiento
+test"se le agrega conocimiento a pepito y se ve si pepito tiene este conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	assert.that(pepito.conoce("holahola"))
+}
+
+test"se le agrega conocimiento a pepito y se calcula su nivel de conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	assert.equals(14,pepito.nivelDeConocimiento())
+}
+test "se le agrega conocimiento a pepito y obtiene amnesia"{
+	fixture.contarleConocimientoAPepito()	
+	pepito.amnesia()
+	assert.that(pepito.conocimiento().isEmpty())
+}
+// estados
+test"a pepito con un estado normal adquiere un conocimiento y lo vuelvo soniador,chequeo de estado"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	assert.equals(soniador,pepito.estadoDeAnimo())
+}
+test"a pepito con un estado normal adquiere un conocimiento y lo vuelvo soniador,chequeo de felicidad"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	assert.equals(1005,pepito.nivelFelicidad())
+}
+test"a pepito con un estado normal adquiere un conocimiento y lo vuelvo soniador,chequeo de conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	assert.that(pepito.conocimiento().isEmpty())
+}
+test "a pepito adqiere un conocimiento, lo vuelvo soniador y lo devuelvo a la normalidad, chequeo de estado"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(normal,pepito.estadoDeAnimo())
+}
+test "a pepito adqiere un conocimiento, lo vuelvo soniador y lo devuelvo a la normalidad, chequeo de felicidad"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(5,pepito.nivelFelicidad())
+}
+test "a pepito adqiere un conocimiento, lo vuelvo soniador y lo devuelvo a la normalidad, chequeo de conocimiento"{
+	fixture.contarleConocimientoAPepito()
+	pepito.cambiarDeAnimo(soniador)
+	pepito.volverANormalidad()
+	assert.equals(#{"anchoa","holahola"},pepito.conocimiento())
+}
+// celos
+test "pepito adquiere amigos y se pone celoso por plata,chequeo de los amigos que quedaron"{
+	fixture.pepitoYsusAmigos()
+	pepito.ponerseCeloso(celosPorPlata)
+	assert.equals([carla],pepito.amigos())
+}
+test "pepito adquiere amigos y se pone celoso por plata,chequeo de la felicidad"{
+	fixture.pepitoYsusAmigos()
+	pepito.ponerseCeloso(celosPorPlata)
+	assert.equals(45,pepito.nivelFelicidad())
+}
+// dinero y trabajo
+test "pepito un oficinista va a trabajar,chequeo del dinero que gana"{
+	fixture.pepitoYsusAmigos()
+	pepito.trabajar()
+	assert.equals(1500,pepito.dinero())
+}
+test "pepito un oficinista va a trabajar,chequeo de la felicidad"{
+	fixture.pepitoYsusAmigos()
+	pepito.trabajar()
+	assert.equals(50,pepito.nivelFelicidad())
+}
+test "carla una desocupada va a trabajar,chequeo del dinero que gana"{
+	carla.trabajar()
+	assert.equals(100,carla.dinero())
+}
+test "carla una desocupada va a trabajar,chequeo de la felicidad"{
+	carla.trabajar()
+	assert.equals(5,carla.nivelFelicidad())
+}
+
+
+
+
+
+
+
+
