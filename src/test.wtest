@@ -6,6 +6,8 @@ import trabajos.*
 import relaciones.*
 import example.*
 import pruebas.*
+//Faltan probar funcionalidades, tienen que probar todos los casos de cada punto, 
+//Por ejemplo en abrazos, falta el otro tipo de abrazo, que si se fijan en este momento falla
 
 //abrazos
 //1)Hacer que un sim abrace a otro
@@ -20,6 +22,8 @@ test "pepito abraza a carla y se ve la felicidad de carla"{
 	pepito.abrazar(carla,abrazoComun)
 	assert.equals(9,carla.nivelFelicidad())
 	}
+	
+
 //2)Saber cuanto valora un sim a otro
 test "carla valora a pepito pero pepito no tiene amigos"{
 
