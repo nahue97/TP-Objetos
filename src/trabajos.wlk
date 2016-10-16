@@ -37,5 +37,6 @@ class Mercenario inherits Trabajo {
 	}
 }
 object desocupado inherits Trabajo {
+	//Esto no esta bien, no es bueno tener metodos vacios, es preferible delegar la información del trabajo y que cada tipo de trabajo retorne lo que tenga que retornar a que le pongan atributos a la clase madre en 0.
 	
 }

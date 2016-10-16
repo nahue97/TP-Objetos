@@ -23,4 +23,4 @@ object celosPorPareja{
 		return sim.noEsAmigoDeMiPareja(amigo)
 	}
 }
-
+//El metodo filtro es un sustantivo, no tiene expresividad

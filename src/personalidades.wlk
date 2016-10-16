@@ -29,6 +29,9 @@ object buenazo{
 	}
 	method preferencia(simAtraido,simAtractor){
 		return simAtractor.esSim()
+		
+		//Vamos a tomar como que cualquier cosa siempre es un Sim, no es necesario el metodo esSim()
+		
 	}
 }
 object peleadoConLaVida{

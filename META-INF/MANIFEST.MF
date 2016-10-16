@@ -3,7 +3,7 @@ Bundle-ManifestVersion: 2
 Bundle-Name: TP Objetos 1er entrega
 Bundle-Vendor: My Company
 Bundle-Version: 1.0.0.qualifier
-Bundle-SymbolicName: TP Objetos 1er entrega; singleton:=true
+Bundle-SymbolicName: TPObjetos1erEntrega; singleton:=true
 Bundle-ActivationPolicy: lazy
 Require-Bundle: com.ibm.icu,
  org.eclipse.xtext,

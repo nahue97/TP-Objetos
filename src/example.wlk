@@ -4,7 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-
+//Cambien el nombre del paquete example.wlk
 class Sim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
@@ -79,6 +79,9 @@ class Sim {
 	
 	method esSim(){
 		return true	
+		
+		//Metodo que no necesitamos
+		
 	}
 	
 	method estaTriste(){
@@ -182,6 +185,11 @@ class Sim {
 	
 	//RELACIONES----------------------------------------------------------------------------------------------
 	
+	
+	// Tanto en los metodos de Relaciones, como de abrazos, personalidades, trabajos, celos. Habria que delegar metodos en cada clase que corresponde.
+	// Por ejemplo, en las relaciones, podrian crear objetos o clases que hereden de relaciones y representen los estados civiles digamos
+	//De esta forma, evitamos comparar if's con estados, y delegar la responsabilidad de ponerse de novio al estado por ejemplo
+	
 	method ponerseDeNovioCon(otroSim){
 		if (otroSim.pareja() == soltero && self.pareja() == soltero){
 			otroSim.sePoneDeNovioCon(self)
@@ -216,6 +224,10 @@ class Sim {
 			else 
 				self.ponerseDeNovioCon(unSim)
 	}
+	//Todos estos metodos, pueden estar en esta abstraccion que menciono del estado.
+	//Estamos rompiendo el encapsulamiento, y delegando todas als relaciones al SIM, de esa fotma no tiene sentido tener la clase relaciones
+	
+	
 	
 	//Valoracion-----------------------------------------------------------------------------------------------------
 	method amigoMasValorado(){
@@ -226,7 +238,13 @@ class Sim {
 		tipoDeAbrazo.abrazarA(self,persona)		
 	}
 	
+	//Esto esta bien delegado, ahora fijense que el metodo abrazarA tiene dos tipos de abrazos, pero el abrazoProlongado utiliza el metodo
+	//atraccion que no esta definido en clase Sim, por lo que el test (que no esta echo, falla)
+	
 	//Trabajo----------------------------------------------------------------------------------------------------
+
+
+//Yo pondria este metodo en la clase Trabajos, ya que yo le puedo decir a un atributo que sea trabajo.trabajarUnDia y que la clase se encargue
 
 	method trabajar(){
 		dinero += trabajo.salario(self)
@@ -239,6 +257,9 @@ class Sim {
 		return persona.trabajo() == trabajo
 	}
 	//Estados de animo---------------------------------------------------------------------------------------------
+	//Esto es lo mismo, tenemos muchos if's innecesarios, que podemos sacar si delegamos la responsabilidad de cambiar de estado a cada uno.
+	
+	
 	method volverANormalidad(){
 		if(estadoDelSim == incomodo){
 			self.aumentarFelicidad(200)
@@ -272,6 +293,9 @@ class Sim {
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
 			error.throwWithMessage("No tiene pareja para ponerse celoso")
+			
+			//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
+			
 		}
 		else{
 		self.disminuirFelicidad(10)
@@ -289,4 +313,4 @@ object femenino{
 	
 }
 
-
+//En general, tener clases, objetos vacios sin comportamiento esta mal

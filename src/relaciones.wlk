@@ -10,6 +10,8 @@ class Relacion {
 	var nuevoCirculoDeAmigos
 	var relacion
 	var estadoDeRelacion = "En Curso"
+	//Validar estados por String no esta bueno!
+	
 	
 	constructor (unSim,otroSim,listaDeAmigos,otraListaDeAmigos){
 		nuevoCirculoDeAmigos = [listaDeAmigos,otraListaDeAmigos].flatten().asSet()
@@ -31,7 +33,8 @@ class Relacion {
 		return relacion
 	}
 	method terminar(){
-		estadoDeRelacion = "Terminada"
+		estadoDeRelacion = "Terminada" // IDEM
+		
 		relacion.first().ponerseSoltero()
 		relacion.last().ponerseSoltero()
 	}
