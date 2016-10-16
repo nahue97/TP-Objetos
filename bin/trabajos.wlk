@@ -21,6 +21,9 @@ class TrabajosFijos inherits Trabajo {
 		remuneracion = unaRemuneracion
 		felicidadDelTrabajo = unaFelicidad
 	}
+	method cambiarEstado(sim){
+		sim.cambiarDeAnimo(normal)
+	}
 }
 class Aburrido inherits TrabajosFijos {
     constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)	
@@ -35,7 +38,30 @@ class Mercenario inherits Trabajo {
 	override method salario(trabajador){
 		return trabajador.dinero()*0.02 + 100
 	}
+	method cambiarEstado(sim){
+		sim.cambiarDeAnimo(normal)
+	}
 }
 object desocupado inherits Trabajo {
-	
+	method cambiarEstado(sim){
+	}
 }
+class SuperAburrido inherits TrabajosFijos{
+	var perdidaDeFelicidad = 3
+    constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)
+    override method felicidad(trabajador){
+		return - felicidadDelTrabajo ** perdidaDeFelicidad
+		}
+}
+class MercenarioSocial inherits Trabajo {		
+	override method salario(trabajador){
+		return trabajador.dinero()*0.02 + 100 + self.comision(trabajador)
+	}
+	method cambiarEstado(sim){
+		sim.cambiarDeAnimo(normal)
+	}
+	method comision(trabajador){
+		return trabajador.amigos().size()
+	}
+}
+

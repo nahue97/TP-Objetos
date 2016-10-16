@@ -76,11 +76,7 @@ class Sim {
 	method esJoven(){
 		return (edad < 29 && edad > 18)
 	}
-	
-	method esSim(){
-		return true	
-	}
-	
+
 	method estaTriste(){
 		return nivelFelicidad < 200	
 	}	
@@ -110,6 +106,9 @@ class Sim {
 	}	
 	method noEsAmigoDeMiPareja(unSim){
 		return !(self.pareja().amigos().contains(unSim))
+	}
+	method ganarDinero(dineroAGanar){
+		dinero += dineroAGanar
 	}
 
 	//AMISTAD y Valoracion----------------------------------------------------------------------------------------------------
@@ -229,33 +228,26 @@ class Sim {
 	//Trabajo----------------------------------------------------------------------------------------------------
 
 	method trabajar(){
-		dinero += trabajo.salario(self)
+		self.ganarDinero(trabajo.salario(self))
 		nivelFelicidad += trabajo.felicidad(self)
-		if(personalidad == buenazo && amigos.all({amigo =>self.trabajaCon(amigo)})){
-			nivelFelicidad += nivelFelicidad*0.1
+		personalidad.trabajar(self)
+		trabajo.cambiarEstado(self)
 		}		
-	}
+	
 	method trabajaCon(persona){
 		return persona.trabajo() == trabajo
 	}
-	//Estados de animo---------------------------------------------------------------------------------------------
-	method volverANormalidad(){
-		if(estadoDelSim == incomodo){
-			self.aumentarFelicidad(200)
-			estadoDelSim = normal
-		}
-		else if(estadoDelSim == soniador){
-			self.disminuirFelicidad(1000)
-			self.recuperarConocimiento()
-			estadoDelSim = normal
-			}
-			else
-				estadoDelSim = normal
+	method trabajaConSusAmigos(){
+		return amigos.all({amigo =>self.trabajaCon(amigo)})
 	}
+	//Estados de animo---------------------------------------------------------------------------------------------
 	method cambiarDeAnimo(animo){
-		self.volverANormalidad()
+		animo.volverANormalidad(self)
 		estadoDelSim = animo
 		animo.efecto(self)
+	}
+	method estadoNormal(){
+		estadoDelSim = normal
 	}
 	
 	// Informacion y conocimiento----------------------------------------------------------------------------------
@@ -268,6 +260,18 @@ class Sim {
 	method conoce(informacion){
 		return conocimiento.contains(informacion)
 	}
+	method difundir(informacion){
+		if(not self.conoce(informacion)){
+			self.adquirirConocimiento(informacion)
+			amigos.forEach({amigo =>amigo.difundir(informacion)})
+		}
+	}
+	method secreto(informacion){
+		return self.conoce(informacion) && amigos.all({amigo=>not amigo.conoce(informacion)})
+	}
+	method chisme(informacion,otroSim){
+		
+	}
 	// CELOS---------------------------------------------------------------------------------------------------------
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
@@ -275,9 +279,21 @@ class Sim {
 		}
 		else{
 		self.disminuirFelicidad(10)
-		amigos = self.amigos().filter({amigo =>tipoDeCelo.filtro(amigo,self)})
+		amigos = amigos.filter({amigo =>tipoDeCelo.filtro(amigo,self)})
 		}
 	}
+// pretamos--------------------------------------------------
+
+method prestarDinero(cantidadDinero,otroSim){
+	if(self.puedePrestar(cantidadDinero,otroSim)){
+		dinero -= cantidadDinero
+		otroSim.dineroAGanar(cantidadDinero)
+	}
+	error.throwWithMessage("No puede prestar Dinero")
+}
+method puedePrestar(cantidadDinero,otroSim){
+	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) < cantidadDinero)
+}
 	
 }
 //--------------------------------------------ACA TERMINA LA CLASE SIM---------------------------------------------------
