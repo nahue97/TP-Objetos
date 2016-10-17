@@ -7,8 +7,8 @@ import relaciones.*
 import example.*
 
 class Trabajo {
-	var remuneracion = 0
-	var felicidadDelTrabajo = 0
+	var remuneracion 
+	var felicidadDelTrabajo 
 	method salario(trabajador){
 		return remuneracion
 	}
@@ -34,7 +34,8 @@ class Aburrido inherits TrabajosFijos {
 class Copado inherits TrabajosFijos {
 	constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)	
 }
-class Mercenario inherits Trabajo {		
+class Mercenario inherits Trabajo {	
+	var felicidadDelTrabajo = 0	
 	override method salario(trabajador){
 		return trabajador.dinero()*0.02 + 100
 	}
@@ -43,23 +44,22 @@ class Mercenario inherits Trabajo {
 	}
 }
 object desocupado inherits Trabajo {
+	var remuneracion = 0
+	var felicidadDelTrabajo = 0
 	method cambiarEstado(sim){
-			//Esto no esta bien, no es bueno tener metodos vacios, es preferible delegar la información del trabajo y que cada tipo de trabajo retorne lo que tenga que retornar a que le pongan atributos a la clase madre en 0.
+	
 	}
 }
-class SuperAburrido inherits TrabajosFijos{
+class SuperAburrido inherits Aburrido{
 	var perdidaDeFelicidad = 3
     constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)
     override method felicidad(trabajador){
-		return - felicidadDelTrabajo ** perdidaDeFelicidad
+		return super() ** perdidaDeFelicidad
 		}
 }
-class MercenarioSocial inherits Trabajo {		
+class MercenarioSocial inherits Mercenario{		
 	override method salario(trabajador){
-		return trabajador.dinero()*0.02 + 100 + self.comision(trabajador)
-	}
-	method cambiarEstado(sim){
-		sim.cambiarDeAnimo(normal)
+		return super() + self.comision(trabajador)
 	}
 	method comision(trabajador){
 		return trabajador.amigos().size()

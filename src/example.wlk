@@ -282,7 +282,7 @@ class Sim {
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
 			error.throwWithMessage("No tiene pareja para ponerse celoso")
-						//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
+		//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
 		}
 		else{
 		self.disminuirFelicidad(10)
