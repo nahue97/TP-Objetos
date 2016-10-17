@@ -11,14 +11,26 @@ object soniador{
 		unSim.aumentarFelicidad(1000)
 		unSim.seVuelveBobo()		
 	}
+	method volverANormalidad(persona){
+		persona.disminuirFelicidad(1000)
+		persona.recuperarConocimiento()
+		persona.estadoNormal()
+	}
 }
 object incomodo{
 	method efecto(unSim){
 		unSim.disminuirFelicidad(200)
 	}
+		method volverANormalidad(persona){
+			persona.aumentarFelicidad(200)
+			persona.estadoNormal()
+	}
 }
 object normal{
 	method efecto(unSim){
+		
+	}
+	method volverANormalidad(persona){
 		
 	}
 }

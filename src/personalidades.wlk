@@ -13,6 +13,10 @@ object interesado{
 	method preferencia(simAtraido,simAtractor){
 		return simAtractor.dinero() >= simAtraido.dinero() * 2
 	}
+	method trabajar(persona){}
+	method prestar(persona,otroSim){
+		return otroSim.dinero()
+	}
 }
 object superficial{
 	method valorar(simValorador,simValorado){
@@ -21,6 +25,10 @@ object superficial{
 	method preferencia(simAtraido,simAtractor){
 		return simAtractor.esJoven() && (simAtraido.amigoMasPopular().popularidad() <= simAtractor.popularidad())
 	}
+	method trabajar(persona){}
+	method prestar(persona,otroSim){
+		return 10* self.valorar(persona,otroSim)
+	}
 }
 	
 object buenazo{
@@ -28,10 +36,15 @@ object buenazo{
 	return simValorador.nivelFelicidad()*0.5
 	}
 	method preferencia(simAtraido,simAtractor){
-		return simAtractor.esSim()
-		
-		//Vamos a tomar como que cualquier cosa siempre es un Sim, no es necesario el metodo esSim()
-		
+		return true
+	}
+	method trabajar(persona){
+		if(persona.trabajaConSusAmigos()){
+			persona.aumentarFelicidad(persona.nivelFelicidad()*0.1)
+		}
+	}
+	method prestar(persona,otroSim){
+		return 10* self.valorar(persona,otroSim)
 	}
 }
 object peleadoConLaVida{
@@ -40,5 +53,9 @@ object peleadoConLaVida{
 	}
 	method preferencia(simAtraido,simAtractor){
 		return simAtractor.estaTriste()
+	}
+	method trabajar(persona){}
+	method prestar(persona,otroSim){
+		return 10* self.valorar(persona,otroSim)
 	}
 }

@@ -22,8 +22,6 @@ test "pepito abraza a carla y se ve la felicidad de carla"{
 	pepito.abrazar(carla,abrazoComun)
 	assert.equals(9,carla.nivelFelicidad())
 	}
-	
-
 //2)Saber cuanto valora un sim a otro
 test "carla valora a pepito pero pepito no tiene amigos"{
 
@@ -218,21 +216,21 @@ test"Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito
 test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez. Se verifica que el estado de animo de Pepito sea normal"{
 	fixture.contarleConocimientoAPepito()
 	pepito.cambiarDeAnimo(soniador)
-	pepito.volverANormalidad()
+	pepito.estadoDeAnimo().volverANormalidad(pepito)
 	assert.equals(normal,pepito.estadoDeAnimo())
 }
 
 test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez.  Se verifica que el nivel de felicidad vuelva a ser el mismo que antes de adquirir estado soñador"{
 	fixture.contarleConocimientoAPepito()
 	pepito.cambiarDeAnimo(soniador)
-	pepito.volverANormalidad()
+	pepito.estadoDeAnimo().volverANormalidad(pepito)
 	assert.equals(5,pepito.nivelFelicidad())
 }
 
 test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez. Se verifica que Pepito vuelve a adquirir sus conocimientos previos"{
 	fixture.contarleConocimientoAPepito()
 	pepito.cambiarDeAnimo(soniador)
-	pepito.volverANormalidad()
+	pepito.estadoDeAnimo().volverANormalidad(pepito)
 	assert.equals(#{"anchoa","holahola"},pepito.conocimiento())
 }
 // celos
@@ -273,6 +271,7 @@ test "carla una desocupada va a trabajar,chequea que la felicidad sea la misma q
 }
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
+
 
 
 

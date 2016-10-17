@@ -60,6 +60,10 @@ class Sim {
 	method sePoneDeNovioCon(alguien){
 		pareja = alguien
 	}
+	method personalidad(){
+		return personalidad
+	}
+
 	//OTROS METODOS SECUNDARIOS ---------------------------------------------------
 	method estadoDeAnimo(){
 		return estadoDelSim
@@ -76,14 +80,7 @@ class Sim {
 	method esJoven(){
 		return (edad < 29 && edad > 18)
 	}
-	
-	method esSim(){
-		return true	
-		
-		//Metodo que no necesitamos
-		
-	}
-	
+
 	method estaTriste(){
 		return nivelFelicidad < 200	
 	}	
@@ -113,6 +110,9 @@ class Sim {
 	}	
 	method noEsAmigoDeMiPareja(unSim){
 		return !(self.pareja().amigos().contains(unSim))
+	}
+	method ganarDinero(dineroAGanar){
+		dinero += dineroAGanar
 	}
 
 	//AMISTAD y Valoracion----------------------------------------------------------------------------------------------------
@@ -184,9 +184,7 @@ class Sim {
 	}
 	
 	//RELACIONES----------------------------------------------------------------------------------------------
-	
-	
-	// Tanto en los metodos de Relaciones, como de abrazos, personalidades, trabajos, celos. Habria que delegar metodos en cada clase que corresponde.
+		// Tanto en los metodos de Relaciones, como de abrazos, personalidades, trabajos, celos. Habria que delegar metodos en cada clase que corresponde.
 	// Por ejemplo, en las relaciones, podrian crear objetos o clases que hereden de relaciones y representen los estados civiles digamos
 	//De esta forma, evitamos comparar if's con estados, y delegar la responsabilidad de ponerse de novio al estado por ejemplo
 	
@@ -224,10 +222,8 @@ class Sim {
 			else 
 				self.ponerseDeNovioCon(unSim)
 	}
-	//Todos estos metodos, pueden estar en esta abstraccion que menciono del estado.
+		//Todos estos metodos, pueden estar en esta abstraccion que menciono del estado.
 	//Estamos rompiendo el encapsulamiento, y delegando todas als relaciones al SIM, de esa fotma no tiene sentido tener la clase relaciones
-	
-	
 	
 	//Valoracion-----------------------------------------------------------------------------------------------------
 	method amigoMasValorado(){
@@ -238,45 +234,26 @@ class Sim {
 		tipoDeAbrazo.abrazarA(self,persona)		
 	}
 	
-	//Esto esta bien delegado, ahora fijense que el metodo abrazarA tiene dos tipos de abrazos, pero el abrazoProlongado utiliza el metodo
-	//atraccion que no esta definido en clase Sim, por lo que el test (que no esta echo, falla)
-	
 	//Trabajo----------------------------------------------------------------------------------------------------
 
-
-//Yo pondria este metodo en la clase Trabajos, ya que yo le puedo decir a un atributo que sea trabajo.trabajarUnDia y que la clase se encargue
-
 	method trabajar(){
-		dinero += trabajo.salario(self)
-		nivelFelicidad += trabajo.felicidad(self)
-		if(personalidad == buenazo && amigos.all({amigo =>self.trabajaCon(amigo)})){
-			nivelFelicidad += nivelFelicidad*0.1
+		trabajo.trabajarUnDia(self)
 		}		
-	}
+	
 	method trabajaCon(persona){
 		return persona.trabajo() == trabajo
 	}
-	//Estados de animo---------------------------------------------------------------------------------------------
-	//Esto es lo mismo, tenemos muchos if's innecesarios, que podemos sacar si delegamos la responsabilidad de cambiar de estado a cada uno.
-	
-	
-	method volverANormalidad(){
-		if(estadoDelSim == incomodo){
-			self.aumentarFelicidad(200)
-			estadoDelSim = normal
-		}
-		else if(estadoDelSim == soniador){
-			self.disminuirFelicidad(1000)
-			self.recuperarConocimiento()
-			estadoDelSim = normal
-			}
-			else
-				estadoDelSim = normal
+	method trabajaConSusAmigos(){
+		return amigos.all({amigo =>self.trabajaCon(amigo)})
 	}
+	//Estados de animo---------------------------------------------------------------------------------------------
 	method cambiarDeAnimo(animo){
-		self.volverANormalidad()
+		estadoDelSim.volverANormalidad(self)
 		estadoDelSim = animo
 		animo.efecto(self)
+	}
+	method estadoNormal(){
+		estadoDelSim = normal
 	}
 	
 	// Informacion y conocimiento----------------------------------------------------------------------------------
@@ -289,18 +266,40 @@ class Sim {
 	method conoce(informacion){
 		return conocimiento.contains(informacion)
 	}
+	method difundir(informacion){
+		if(not self.conoce(informacion)){
+			self.adquirirConocimiento(informacion)
+			amigos.forEach({amigo =>amigo.difundir(informacion)})
+		}
+	}
+	method secreto(informacion){
+		return self.conoce(informacion) && amigos.all({amigo=>not amigo.conoce(informacion)})
+	}
+	method chisme(informacion,otroSim){
+		
+	}
 	// CELOS---------------------------------------------------------------------------------------------------------
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
 			error.throwWithMessage("No tiene pareja para ponerse celoso")
-			
-			//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
-			
+						//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
 		}
 		else{
 		self.disminuirFelicidad(10)
-		amigos = self.amigos().filter({amigo =>tipoDeCelo.filtro(amigo,self)})
+		amigos = amigos.filter({amigo =>tipoDeCelo.filtro(amigo,self)})
 		}
+	}
+// pretamos--------------------------------------------------
+
+method prestarDinero(cantidadDinero,otroSim){
+	if(self.puedePrestar(cantidadDinero,otroSim)){
+		dinero -= cantidadDinero
+		otroSim.dineroAGanar(cantidadDinero)
+	}
+	error.throwWithMessage("No puede prestar Dinero")
+}
+method puedePrestar(cantidadDinero,otroSim){
+	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) < cantidadDinero)
 	}
 	
 }
