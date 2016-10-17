@@ -11,7 +11,7 @@ object abrazoComun{
 		abrazado.aumentarFelicidad(4)
 	}	
 }
-object abrazoProlongado{//Falta testear, si se fijan no esta definido atraccion() en clase sim
+object abrazoProlongado{//Falta testear
 		method abrazarA(abrazador,abrazado){
 		if(abrazado.sienteAtraccionPor(abrazador)){
 			abrazado.cambiarDeAnimo(soniador)
