@@ -286,7 +286,7 @@ class Sim {
 		}
 		else{
 		self.disminuirFelicidad(10)
-		amigos = amigos.filter({amigo =>tipoDeCelo.filtro(amigo,self)})
+		amigos = amigos.filter({amigo =>tipoDeCelo.filtrarRazon(amigo,self)})
 		}
 	}
 // pretamos--------------------------------------------------

@@ -61,7 +61,7 @@ object desocupado inherits Trabajo {
 		return 0
 	}
 	override method felicidad(trabajador){
-		return 0	
+		return 0
 	}
 }
 class SuperAburrido inherits Aburrido{
@@ -79,3 +79,4 @@ class MercenarioSocial inherits Mercenario{
 		return trabajador.amigos().size()
 	}
 }
+
