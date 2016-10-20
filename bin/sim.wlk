@@ -15,7 +15,7 @@ class Sim {
 	var dinero// = 0-100000 (SE INICIALIZA)
 	var conocimiento = #{}
 	var estadoDelSim = normal
-	var preferencia // SEXO MAASCULINO O FEM (SE INICIALIZA)
+	var preferencia // SEXO MASCULINO O FEM (SE INICIALIZA)
 	var pareja = soltero
 	var conocimientoPerdido = #{}
 	var relacion

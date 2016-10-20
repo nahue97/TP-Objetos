@@ -4,7 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-
+//Cambien el nombre del paquete example.wlk
 class Sim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
@@ -15,7 +15,7 @@ class Sim {
 	var dinero// = 0-100000 (SE INICIALIZA)
 	var conocimiento = #{}
 	var estadoDelSim = normal
-	var preferencia // SEXO MAASCULINO O FEM (SE INICIALIZA)
+	var preferencia // SEXO MASCULINO O FEM (SE INICIALIZA)
 	var pareja = soltero
 	var conocimientoPerdido = #{}
 	var relacion
@@ -60,6 +60,10 @@ class Sim {
 	method sePoneDeNovioCon(alguien){
 		pareja = alguien
 	}
+	method personalidad(){
+		return personalidad
+	}
+
 	//OTROS METODOS SECUNDARIOS ---------------------------------------------------
 	method estadoDeAnimo(){
 		return estadoDelSim
@@ -180,6 +184,9 @@ class Sim {
 	}
 	
 	//RELACIONES----------------------------------------------------------------------------------------------
+		// Tanto en los metodos de Relaciones, como de abrazos, personalidades, trabajos, celos. Habria que delegar metodos en cada clase que corresponde.
+	// Por ejemplo, en las relaciones, podrian crear objetos o clases que hereden de relaciones y representen los estados civiles digamos
+	//De esta forma, evitamos comparar if's con estados, y delegar la responsabilidad de ponerse de novio al estado por ejemplo
 	
 	method ponerseDeNovioCon(otroSim){
 		if (otroSim.pareja() == soltero && self.pareja() == soltero){
@@ -215,6 +222,8 @@ class Sim {
 			else 
 				self.ponerseDeNovioCon(unSim)
 	}
+		//Todos estos metodos, pueden estar en esta abstraccion que menciono del estado.
+	//Estamos rompiendo el encapsulamiento, y delegando todas als relaciones al SIM, de esa fotma no tiene sentido tener la clase relaciones
 	
 	//Valoracion-----------------------------------------------------------------------------------------------------
 	method amigoMasValorado(){
@@ -228,10 +237,7 @@ class Sim {
 	//Trabajo----------------------------------------------------------------------------------------------------
 
 	method trabajar(){
-		self.ganarDinero(trabajo.salario(self))
-		nivelFelicidad += trabajo.felicidad(self)
-		personalidad.trabajar(self)
-		trabajo.cambiarEstado(self)
+		trabajo.trabajarUnDia(self)
 		}		
 	
 	method trabajaCon(persona){
@@ -242,7 +248,7 @@ class Sim {
 	}
 	//Estados de animo---------------------------------------------------------------------------------------------
 	method cambiarDeAnimo(animo){
-		animo.volverANormalidad(self)
+		estadoDelSim.volverANormalidad(self)
 		estadoDelSim = animo
 		animo.efecto(self)
 	}
@@ -276,10 +282,11 @@ class Sim {
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
 			error.throwWithMessage("No tiene pareja para ponerse celoso")
+		//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
 		}
 		else{
 		self.disminuirFelicidad(10)
-		amigos = amigos.filter({amigo =>tipoDeCelo.filtro(amigo,self)})
+		amigos = amigos.filter({amigo =>tipoDeCelo.filtrarRazon(amigo,self)})
 		}
 	}
 // pretamos--------------------------------------------------
@@ -293,7 +300,7 @@ method prestarDinero(cantidadDinero,otroSim){
 }
 method puedePrestar(cantidadDinero,otroSim){
 	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) < cantidadDinero)
-}
+	}
 	
 }
 //--------------------------------------------ACA TERMINA LA CLASE SIM---------------------------------------------------
@@ -305,4 +312,4 @@ object femenino{
 	
 }
 
-
+//En general, tener clases, objetos vacios sin comportamiento esta mal

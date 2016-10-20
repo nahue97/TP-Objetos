@@ -59,4 +59,3 @@ object peleadoConLaVida{
 		return 10* self.valorar(persona,otroSim)
 	}
 }
-
