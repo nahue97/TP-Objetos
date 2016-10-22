@@ -13,6 +13,8 @@ class Relacion {
 	constructor (unSim,otroSim,listaDeAmigos,otraListaDeAmigos){
 		nuevoCirculoDeAmigos = [listaDeAmigos,otraListaDeAmigos].flatten().asSet()
 		relacion = [unSim,otroSim]
+		unSim.setRelacion(self)
+		otroSim.setRelacion(self)
 	}
 	method circuloDeAmigos(){
 		return nuevoCirculoDeAmigos

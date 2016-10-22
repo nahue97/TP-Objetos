@@ -192,7 +192,9 @@ class Vim {
 
 		else error.throwWithMessage("El sim es muy joven para tener una relación")
 	}
-
+	method setRelacion(unaRelacion) {
+		relacion = unaRelacion
+	}
 	method terminarRelacion(){
 		relacion.terminar()
 	}
@@ -200,7 +202,6 @@ class Vim {
 		estadoCivil = unEstadoCivil
 	}
 	method estaEnPareja(){
-
 		return (estadoCivil == enPareja)
 	}
 
