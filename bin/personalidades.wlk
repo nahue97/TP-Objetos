@@ -4,7 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-import example.*
+import sim.*
 
 object interesado{
 	method valorar(simValorador, simValorado){

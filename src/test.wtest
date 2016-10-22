@@ -4,7 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-import example.*
+import sim.*
 import pruebas.*
 //Faltan probar funcionalidades, tienen que probar todos los casos de cada punto, 
 //Por ejemplo en abrazos, falta el otro tipo de abrazo, que si se fijan en este momento falla
