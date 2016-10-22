@@ -1,4 +1,4 @@
-import example.*
+import sim.*
 import celos.*
 import estados.*
 import personalidades.*

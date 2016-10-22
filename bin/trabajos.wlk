@@ -4,16 +4,26 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-import example.*
+import sim.*
 
 class Trabajo {
-	var remuneracion = 0
-	var felicidadDelTrabajo = 0
+	var remuneracion 
+	var felicidadDelTrabajo 
+	
 	method salario(trabajador){
 		return remuneracion
 	}
 	method felicidad(trabajador){
 		return felicidadDelTrabajo	
+	}
+	method trabajarUnDia(persona){
+		persona.ganarDinero(self.salario(persona))
+		persona.aumentarFelicidad(self.felicidad(persona))
+		persona.personalidad().trabajar(persona)
+		self.cambiarEstado(persona)
+	}
+	method cambiarEstado(sim){
+	
 	}
 }
 class TrabajosFijos inherits Trabajo {
@@ -21,7 +31,7 @@ class TrabajosFijos inherits Trabajo {
 		remuneracion = unaRemuneracion
 		felicidadDelTrabajo = unaFelicidad
 	}
-	method cambiarEstado(sim){
+	override method cambiarEstado(sim){
 		sim.cambiarDeAnimo(normal)
 	}
 }
@@ -34,31 +44,36 @@ class Aburrido inherits TrabajosFijos {
 class Copado inherits TrabajosFijos {
 	constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)	
 }
-class Mercenario inherits Trabajo {		
+class Mercenario inherits Trabajo {	
+	constructor(){
+		remuneracion = 0
+		felicidadDelTrabajo = 0
+	}
 	override method salario(trabajador){
 		return trabajador.dinero()*0.02 + 100
 	}
-	method cambiarEstado(sim){
+	override method cambiarEstado(sim){
 		sim.cambiarDeAnimo(normal)
 	}
 }
 object desocupado inherits Trabajo {
-	method cambiarEstado(sim){
+	override method salario(trabajador){
+		return 0
+	}
+	override method felicidad(trabajador){
+		return 0
 	}
 }
-class SuperAburrido inherits TrabajosFijos{
+class SuperAburrido inherits Aburrido{
 	var perdidaDeFelicidad = 3
     constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)
     override method felicidad(trabajador){
-		return - felicidadDelTrabajo ** perdidaDeFelicidad
+		return super(trabajador) ** perdidaDeFelicidad
 		}
 }
-class MercenarioSocial inherits Trabajo {		
+class MercenarioSocial inherits Mercenario{		
 	override method salario(trabajador){
-		return trabajador.dinero()*0.02 + 100 + self.comision(trabajador)
-	}
-	method cambiarEstado(sim){
-		sim.cambiarDeAnimo(normal)
+		return super(trabajador) + self.comision(trabajador)
 	}
 	method comision(trabajador){
 		return trabajador.amigos().size()

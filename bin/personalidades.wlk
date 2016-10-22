@@ -4,7 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-import example.*
+import sim.*
 
 object interesado{
 	method valorar(simValorador, simValorado){
@@ -59,4 +59,3 @@ object peleadoConLaVida{
 		return 10* self.valorar(persona,otroSim)
 	}
 }
-

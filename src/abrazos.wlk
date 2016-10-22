@@ -1,4 +1,4 @@
-import example.*
+import sim.*
 import celos.*
 import estados.*
 import personalidades.*
@@ -11,7 +11,7 @@ object abrazoComun{
 		abrazado.aumentarFelicidad(4)
 	}	
 }
-object abrazoProlongado{//Falta testear
+object abrazoProlongado{
 		method abrazarA(abrazador,abrazado){
 		if(abrazado.sienteAtraccionPor(abrazador)){
 			abrazado.cambiarDeAnimo(soniador)

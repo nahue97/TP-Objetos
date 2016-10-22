@@ -5,26 +5,25 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 //Cambien el nombre del paquete example.wlk
-class Sim {
+class Vim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
-	var edad// = 1,2,3,4,5,6... (SE INICIALIZA)
+	var edad = 18// = 1,2,3,4,5,6... (SE INICIALIZA)
 	var nivelFelicidad
 	var personalidad // = interesado, superficial, buenazo, peleadoConLaVida (SE INICIALIZA)
 	var trabajo// = Copado,Mercenario,Aburrido,Desocupado (SE INICIALIZA)
 	var dinero// = 0-100000 (SE INICIALIZA)
 	var conocimiento = #{}
 	var estadoDelSim = normal
+
 	var preferencia // SEXO MASCULINO O FEM (SE INICIALIZA)
 	var estadoCivil = soltero
-	var pareja 
-	var conocimientoPerdido = #{}
+	var pareja 	var conocimientoPerdido = #{}
 	var relacion
 	
-	constructor(unaFelicidad,unaEdad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
 	{
 	nivelFelicidad = unaFelicidad
-	edad = unaEdad
 	personalidad = unaPersonalidad
 	trabajo = unTrabajo
 	dinero = unDinero
@@ -56,6 +55,7 @@ class Sim {
 	method relacion(){
 		return relacion
 	}
+
 	method pareja(){
 		return pareja
 	}
@@ -113,7 +113,9 @@ class Sim {
 	method ganarDinero(dineroAGanar){
 		dinero += dineroAGanar
 	}
-
+	method cumplirAnios(){
+	}
+	
 	//AMISTAD y Valoracion----------------------------------------------------------------------------------------------------
 	method hacerseAmigoDe(unSim){
 		if(not amigos.contains(unSim)){
@@ -181,14 +183,17 @@ class Sim {
 		return lista.filter({sim => self.sienteAtraccionPor(sim)})
 	}
 	
+
 	//RELACIONES---------------------------------------------------------------------------------------------
 		
 	method iniciarRelacionCon(otroSim){
 		if (self.edad() > 16 && otroSim.edad() > 16){
 			estadoCivil.iniciarRelacion(self,otroSim)
 		}
+
 		else error.throwWithMessage("El sim es muy joven para tener una relación")
 	}
+
 	method terminarRelacion(){
 		relacion.terminar()
 	}
@@ -196,15 +201,19 @@ class Sim {
 		estadoCivil = unEstadoCivil
 	}
 	method estaEnPareja(){
+
 		return (estadoCivil == enPareja)
 	}
+
 	method relacionFuncionando(){
 		return relacion.estaFuncionando()
 	}
+
 	method relacionPodrida(){
 		return relacion.sePudreTodo()
 	}
 	method reestablecerRelacionCon(unSim){
+
 			self.terminarRelacion()
 			self.iniciarRelacionCon(unSim)
 			unSim.terminarRelacion()
@@ -268,7 +277,7 @@ class Sim {
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
 			error.throwWithMessage("No tiene pareja para ponerse celoso")
-						//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
+		//No es necesaria esta validacion, van a ver que cambia cuando tengan estados civiles como objetos
 		}
 		else{
 		self.disminuirFelicidad(10)
@@ -289,7 +298,7 @@ method puedePrestar(cantidadDinero,otroSim){
 	}
 	
 }
-//--------------------------------------------ACA TERMINA LA CLASE SIM---------------------------------------------------
+//--------------------------------------------ACA TERMINA LA CLASE VIM---------------------------------------------------
 
 object masculino{
 	
@@ -299,3 +308,16 @@ object femenino{
 }
 
 //En general, tener clases, objetos vacios sin comportamiento esta mal
+
+//--------------------------------------------SIM---------------------------------------------------
+class Sim inherits Vim{
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaEdad) = super(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+	{
+	edad = unaEdad
+	}
+	override method cumplirAnios(){
+		edad +=1
+	}
+	
+	//12) Si se quisiera contemplar la transformacion de un sim a vim, se tendría que generar una clase abstracta Sim con una variable "tipo" que indique si es "Sim" o "Vim" y que sean objetos polimorficos. En estos objetos incluiriamos metodos como morderA() que transforme desde un vim a sim, pero de un sim a otro sim no haga nada. 
+}

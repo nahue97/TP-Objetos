@@ -5,7 +5,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-import example.*
+import sim.*
 
 object oficinista inherits Aburrido(1000,5){}
 object ladron inherits Mercenario{}
