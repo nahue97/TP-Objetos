@@ -258,8 +258,8 @@ class Vim {
 	}
 	
 	// Informacion y conocimiento----------------------------------------------------------------------------------
-	method adquirirConocimiento(informacion){
-		conocimiento.add(informacion)
+	method adquirirConocimiento(fuente){
+		conocimiento.add(fuente.darInformacion())
 	}
 	method nivelDeConocimiento(){
 		return conocimiento.map({frase => frase.size()}).sum()
@@ -276,8 +276,24 @@ class Vim {
 	method secreto(informacion){
 		return self.conoce(informacion) && amigos.all({amigo=>not amigo.conoce(informacion)})
 	}
-	method chisme(informacion,otroSim){
-		
+	method desparramarChisme(informacion,otroSim){
+		if (otroSim.secreto(informacion)){
+			self.difundir(informacion)
+		}
+	}
+	method tieneSecreto(){
+		return self.conocimiento().any({informacion=>self.secreto(informacion)})
+	}
+	method secretoRandom(unSim){
+	if (unSim.tieneSecreto()){
+		return unSim.conocimiento().filter({informacion=> unSim.secreto(informacion)}).random()
+	}
+	else {
+		return null
+	}
+	}
+	method darInformacion(){
+		return self.secretoRandom(amigos.random())
 	}
 	// CELOS---------------------------------------------------------------------------------------------------------
 	method ponerseCeloso(tipoDeCelo){

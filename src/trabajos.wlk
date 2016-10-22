@@ -65,8 +65,10 @@ object desocupado inherits Trabajo {
 	}
 }
 class SuperAburrido inherits Aburrido{
-	var perdidaDeFelicidad = 3
-    constructor(unaRemuneracion,unaFelicidad) = super(unaRemuneracion,unaFelicidad)
+	var perdidaDeFelicidad
+    constructor(unaRemuneracion,unaFelicidad,unaPerdidaDeFelicidad) = super(unaRemuneracion,unaFelicidad){
+    	perdidaDeFelicidad = unaPerdidaDeFelicidad
+    }
     override method felicidad(trabajador){
 		return super(trabajador) ** perdidaDeFelicidad
 		}
