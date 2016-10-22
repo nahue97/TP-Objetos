@@ -5,10 +5,10 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 //Cambien el nombre del paquete example.wlk
-class Sim {
+class Vim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
-	var edad// = 1,2,3,4,5,6... (SE INICIALIZA)
+	var edad = 18// = 1,2,3,4,5,6... (SE INICIALIZA)
 	var nivelFelicidad
 	var personalidad // = interesado, superficial, buenazo, peleadoConLaVida (SE INICIALIZA)
 	var trabajo// = Copado,Mercenario,Aburrido,Desocupado (SE INICIALIZA)
@@ -20,10 +20,9 @@ class Sim {
 	var conocimientoPerdido = #{}
 	var relacion
 	
-	constructor(unaFelicidad,unaEdad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
 	{
 	nivelFelicidad = unaFelicidad
-	edad = unaEdad
 	personalidad = unaPersonalidad
 	trabajo = unTrabajo
 	dinero = unDinero
@@ -114,7 +113,9 @@ class Sim {
 	method ganarDinero(dineroAGanar){
 		dinero += dineroAGanar
 	}
-
+	method cumplirAnios(){
+	}
+	
 	//AMISTAD y Valoracion----------------------------------------------------------------------------------------------------
 	method hacerseAmigoDe(unSim){
 		if(not amigos.contains(unSim)){
@@ -303,7 +304,7 @@ method puedePrestar(cantidadDinero,otroSim){
 	}
 	
 }
-//--------------------------------------------ACA TERMINA LA CLASE SIM---------------------------------------------------
+//--------------------------------------------ACA TERMINA LA CLASE VIM---------------------------------------------------
 
 object masculino{
 	
@@ -313,3 +314,16 @@ object femenino{
 }
 
 //En general, tener clases, objetos vacios sin comportamiento esta mal
+
+//--------------------------------------------SIM---------------------------------------------------
+class Sim inherits Vim{
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaEdad) = super(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+	{
+	edad = unaEdad
+	}
+	override method cumplirAnios(){
+		edad +=1
+	}
+	
+	//12) Si se quisiera contemplar la transformacion de un sim a vim, se tendría que generar una clase abstracta Sim con una variable "tipo" que indique si es "Sim" o "Vim" y que sean objetos polimorficos. En estos objetos incluiriamos metodos como morderA() que transforme desde un vim a sim, pero de un sim a otro sim no haga nada. 
+}
