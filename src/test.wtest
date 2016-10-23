@@ -40,15 +40,28 @@ test "pepito abraza a carla de manera prolongada y se ve la felicidad de carla"{
 	assert.equals(1005,carla.nivelFelicidad())
 	}
 //2)Saber cuanto valora un sim a otro
-test "carla valora a pepito pero pepito no tiene amigos"{
+test "carla un sim peleado con la vida valora a pepito pero pepito no tiene amigos"{
 
 	assert.equals(0,carla.valoracion(pepito))
 }
 
-test "carla se hace amigo de pepito y pepito valora a carla"{
+test "carla un sim peleado con la vida se hace amigo de pepito y pepito valora a carla"{
 	carla.hacerseAmigoDe(pepito)
 	assert.equals(50,pepito.valoracion(carla))
 }
+test "pepito hace amigos y juan un sim interesado valora a pepito"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(3760,juan.valoracion(pepito))
+}
+
+test "pepito hace amigos y pepo un sim superficial valora a pepito"{
+	fixture.pepitoYsusAmigos()
+	assert.equals(2710,pepo.valoracion(pepito))
+}
+test "leandro un sim buenazo valora a carla"{
+	assert.equals(2.5,leandro.valoracion(carla))
+}
+
 //3) Saber quien es el amigo a quien valora más un sim
 test "pepito agrega muchos amigos e indica qué amigo es el más valorado"{
 	fixture.pepitoYsusAmigos()
@@ -293,6 +306,16 @@ test "ricardo adquiere amigos y se pone celoso por popularidad,chequeo de la fel
 	ricardo.ponerseCeloso(celosPorPopularidad)
 	assert.equals(-5,ricardo.nivelFelicidad())
 }
+test "carla empieza una relacion con leandro,y carla se pone celosa por pareja, se chequea la felicidad "{
+	fixture.carlaYLeandro()
+	carla.ponerseCeloso(celosPorPareja)
+	assert.equals([martha],carla.amigos())
+}
+test "carla empieza una relacion con leandro,y carla se pone celosa por pareja, se chequea los amigos que quedaron "{
+	fixture.carlaYLeandro()	
+	carla.ponerseCeloso(celosPorPareja)
+	assert.equals(-5,carla.nivelFelicidad())
+}
 
 // dinero y trabajo
 //Hacer que un sim vaya a trabajar
@@ -333,6 +356,13 @@ test "simFeliz un presidente(tipo de trabajo copado) va a trabajar, chequeo de q
 	simFeliz.trabajar()
 	assert.equals(600,simFeliz.nivelFelicidad())
 }
+test "leandro un presidente(tipo de trabajo copado) de personalidad buenazo va a trabajar, chequeo de que su felicidad  haya aumentado luego de trabajar"{
+	leandro.trabajar()
+	assert.equals(115.5,leandro.nivelFelicidad())
+}
+
+
+
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
 
