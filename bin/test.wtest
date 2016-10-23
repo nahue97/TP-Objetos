@@ -317,6 +317,22 @@ test "carla una desocupada va a trabajar,chequea que la felicidad sea la misma q
 	carla.trabajar()
 	assert.equals(5,carla.nivelFelicidad())
 }
+test "pepo un ladron(tipo de trabajo mercenario) va a trabajar, chequeo del dinero luego de trabajar"{
+	pepo.trabajar()
+	assert.equals(1630,pepo.dinero())
+}
+test "pepo un ladron(tipo de trabajo mercenario) va a trabajar, chequeo de que su felicidad no haya cambiadotrabajar"{
+	pepo.trabajar()
+	assert.equals(5,pepo.nivelFelicidad())
+}
+test "simFeliz un presidente(tipo de trabajo copado) va a trabajar, chequeo del dinero luego de trabajar"{
+	simFeliz.trabajar()
+	assert.equals(17500,simFeliz.dinero())
+}
+test "simFeliz un presidente(tipo de trabajo copado) va a trabajar, chequeo de que su felicidad  haya aumentado luego de trabajar"{
+	simFeliz.trabajar()
+	assert.equals(600,simFeliz.nivelFelicidad())
+}
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
 
