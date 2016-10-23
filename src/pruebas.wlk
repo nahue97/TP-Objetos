@@ -46,16 +46,16 @@ object fixture{
 	method carlaYLeandro(){
 		self.amigosDeCarla()
 		self.amigosDeLeandro()
-		carla.ponerseDeNovioCon(leandro)
+		carla.iniciarRelacionCon(leandro)
 	}
 	method carlaYLeandroTerminan(){
 		self.carlaYLeandro()
-		carla.relacion().terminar()
+		carla.relacion().terminarRelacion()
 	}
 	method leandroYPepito(){
 		self.amigosDeLeandro()
 		self.pepitoYsusAmigos()
-		leandro.ponerseDeNovioCon(pepito)
+		leandro.iniciarRelacionCon(pepito)
 	}
 }
 object masculino{}

@@ -15,9 +15,10 @@ class Vim {
 	var dinero// = 0-100000 (SE INICIALIZA)
 	var conocimiento = #{}
 	var estadoDelSim = normal
+
 	var preferencia // SEXO MASCULINO O FEM (SE INICIALIZA)
-	var pareja = soltero
-	var conocimientoPerdido = #{}
+	var estadoCivil = soltero
+	var pareja 	var conocimientoPerdido = #{}
 	var relacion
 	
 	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
@@ -42,22 +43,21 @@ class Vim {
 	method amigos(){
 		return amigos
 	}
-	
 	method dinero(){
 		return dinero
 	}
-	
 	method sexo(){
 		return sexo
 	}
-	method pareja(){
-		return pareja
+	method estadoCivil(){
+		return estadoCivil
 	}
 	method relacion(){
 		return relacion
 	}
-	method sePoneDeNovioCon(alguien){
-		pareja = alguien
+
+	method pareja(){
+		return pareja
 	}
 	method personalidad(){
 		return personalidad
@@ -123,7 +123,6 @@ class Vim {
 			nivelFelicidad += self.valoracion(unSim)
 		}
 	}
-
 	method valoracion(simValorado){
 		return personalidad.valorar(self,simValorado)
 	}
@@ -184,47 +183,42 @@ class Vim {
 		return lista.filter({sim => self.sienteAtraccionPor(sim)})
 	}
 	
-	//RELACIONES----------------------------------------------------------------------------------------------
-		// Tanto en los metodos de Relaciones, como de abrazos, personalidades, trabajos, celos. Habria que delegar metodos en cada clase que corresponde.
-	// Por ejemplo, en las relaciones, podrian crear objetos o clases que hereden de relaciones y representen los estados civiles digamos
-	//De esta forma, evitamos comparar if's con estados, y delegar la responsabilidad de ponerse de novio al estado por ejemplo
-	
-	method ponerseDeNovioCon(otroSim){
-		if (otroSim.pareja() == soltero && self.pareja() == soltero){
-			otroSim.sePoneDeNovioCon(self)
-			self.sePoneDeNovioCon(otroSim)
-			self.cambiarRelacion(otroSim)
-			otroSim.cambiarRelacion(self)
-			
+
+	//RELACIONES---------------------------------------------------------------------------------------------
+		
+	method iniciarRelacionCon(otroSim){
+		if (self.edad() > 16 && otroSim.edad() > 16){
+			estadoCivil.iniciarRelacion(self,otroSim)
 		}
-		else error.throwWithMessage("Alguno está en pareja")
+
+		else error.throwWithMessage("El sim es muy joven para tener una relación")
 	}
-	method cambiarRelacion(otroSim){
-		relacion = new Relacion(self,otroSim,self.amigos(),otroSim.amigos())
-	}	
+
+	method terminarRelacion(){
+		relacion.terminar()
+	}
+	method cambiarEstadoCivil(unEstadoCivil){
+		estadoCivil = unEstadoCivil
+	}
 	method estaEnPareja(){
-		return (pareja != soltero)
+
+		return (estadoCivil == enPareja)
 	}
-	method ponerseSoltero(){
-		pareja = soltero
+
+	method relacionFuncionando(){
+		return relacion.estaFuncionando()
 	}
-	method estadoDeRelacion(){
-		relacion.estadoDeRelacion()
+
+	method relacionPodrida(){
+		return relacion.sePudreTodo()
 	}
 	method reestablecerRelacionCon(unSim){
-		if(self.pareja()!=soltero){
-			self.relacion().terminar()
-			self.ponerseDeNovioCon(unSim)
+
+			self.terminarRelacion()
+			self.iniciarRelacionCon(unSim)
+			unSim.terminarRelacion()
+			unSim.iniciarRelacionCon(self)
 		}
-		else if(unSim.pareja()!= soltero){
-			unSim.relacion().terminar()
-			self.ponerseDeNovioCon(unSim)
-			}
-			else 
-				self.ponerseDeNovioCon(unSim)
-	}
-		//Todos estos metodos, pueden estar en esta abstraccion que menciono del estado.
-	//Estamos rompiendo el encapsulamiento, y delegando todas als relaciones al SIM, de esa fotma no tiene sentido tener la clase relaciones
 	
 	//Valoracion-----------------------------------------------------------------------------------------------------
 	method amigoMasValorado(){
