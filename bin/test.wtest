@@ -361,10 +361,32 @@ test "leandro un presidente(tipo de trabajo copado) de personalidad buenazo va a
 	assert.equals(115.5,leandro.nivelFelicidad())
 }
 
-
-
-
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
+//TEST 2da entrega
+
+//Chismes
+test "pepito adquiere conocimiento, y una cantidad de amigos y se chequea que si un conocimiento de pepito es secreto"{
+	fixture.pepitoYsusAmigos()
+	fixture.contarleConocimientoAPepito()
+	assert.that(pepito.secreto("holahola"))
+}
+test "pepito se hace amigo de carla y difunde un conocimiento,chequeo que pepito adquirio el conocimiento"{
+	pepito.hacerseAmigoDe(carla)
+	pepito.difundir("holahola")
+	assert.equals(#{"holahola"},pepito.conocimiento())
+}
+test "pepito se hace amigo de carla y difunde un conocimiento,chequeo que carla adquirio el conocimiento"{
+	pepito.hacerseAmigoDe(carla)
+	pepito.difundir("holahola")
+	assert.equals(#{"holahola"},pepito.conocimiento())
+
+}
+test "pepito se hace amigo de carla, adquiere conocimiento y se intenta difundir un conocimiento que ya poseia, chequeo de que el conocimiento de carla no haya cambiado"{
+	pepito.hacerseAmigoDe(carla)
+	fixture.contarleConocimientoAPepito()
+	pepito.difundir("holahola")
+	assert.equals(#{},carla.conocimiento())
+}
 
 
 
