@@ -1,4 +1,4 @@
-﻿import abrazos.*
+import abrazos.*
 import celos.*
 import estados.*
 import personalidades.*
@@ -61,10 +61,18 @@ class Vim {
 	method personalidad(){
 		return personalidad
 	}
+	
+	method edad() {
+		return edad
+	}
 
 	//OTROS METODOS SECUNDARIOS ---------------------------------------------------
 	method estadoDeAnimo(){
 		return estadoDelSim
+	}
+	
+	method setPareja(unSim){
+		pareja = unSim
 	}
 	
 	method aumentarFelicidad(numero){

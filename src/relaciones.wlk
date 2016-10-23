@@ -13,6 +13,8 @@ class Relacion {
 	constructor (unSim,otroSim,listaDeAmigos,otraListaDeAmigos){
 		nuevoCirculoDeAmigos = [listaDeAmigos,otraListaDeAmigos].flatten().asSet()
 		relacion = [unSim,otroSim]
+		unSim.setPareja(otroSim)
+		otroSim.setPareja(unSim)
 		unSim.setRelacion(self)
 		otroSim.setRelacion(self)
 	}
@@ -32,36 +34,31 @@ class Relacion {
 		return relacion
 	}
 	method terminar(){		
-		relacion.first().estadoCivil().terminarRelacion()
-		relacion.last().estadoCivil().terminarRelacion()
+		relacion.first().estadoCivil().terminarRelacion(relacion.first())
+		relacion.last().estadoCivil().terminarRelacion(relacion.last())
 	}
 }
 
 object soltero{
 	var relacion
-	var unSim
-	var otroSim
 	method iniciarRelacion(unSim, otroSim){
-		if (otroSim.estadoCivil() == soltero){
-			relacion = new Relacion(self,otroSim,self.amigos(),otroSim.amigos())
+		if (otroSim.estadoCivil() == self){
+			relacion = new Relacion(unSim, otroSim, unSim.amigos(), otroSim.amigos())
 			otroSim.cambiarEstadoCivil(enPareja)
 			unSim.cambiarEstadoCivil(enPareja)
 			}
 			else error.throwWithMessage("El otro sim está en pareja")
 	}
-	method terminarRelacion(){
+	method terminarRelacion(unSim){
 		error.throwWithMessage("No es posible terminar una relación no empezada")
 	}
 }
 
 object enPareja{
-	var relacion
-	var unSim
-	var otroSim
 	method iniciarRelacion(unSim,otroSim){
 		error.throwWithMessage("El sim ya está en pareja con otro Sim")
 	}
-	method terminarRelacion(){
+	method terminarRelacion(unSim){
 		unSim.cambiarEstadoCivil(soltero)
 	}
 }

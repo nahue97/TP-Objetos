@@ -4,7 +4,6 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
-//Cambien el nombre del paquete example.wlk
 class Vim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
@@ -15,10 +14,10 @@ class Vim {
 	var dinero// = 0-100000 (SE INICIALIZA)
 	var conocimiento = #{}
 	var estadoDelSim = normal
-
 	var preferencia // SEXO MASCULINO O FEM (SE INICIALIZA)
 	var estadoCivil = soltero
-	var pareja 	var conocimientoPerdido = #{}
+	var pareja 
+	var conocimientoPerdido = #{}
 	var relacion
 	
 	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
@@ -62,10 +61,18 @@ class Vim {
 	method personalidad(){
 		return personalidad
 	}
+	
+	method edad() {
+		return edad
+	}
 
 	//OTROS METODOS SECUNDARIOS ---------------------------------------------------
 	method estadoDeAnimo(){
 		return estadoDelSim
+	}
+	
+	method setPareja(unSim){
+		pareja = unSim
 	}
 	
 	method aumentarFelicidad(numero){
@@ -191,9 +198,11 @@ class Vim {
 			estadoCivil.iniciarRelacion(self,otroSim)
 		}
 
-		else error.throwWithMessage("El sim es muy joven para tener una relación")
+		else error.throwWithMessage("El sim es muy joven para tener una relaciÃ³n")
 	}
-
+	method setRelacion(unaRelacion) {
+		relacion = unaRelacion
+	}
 	method terminarRelacion(){
 		relacion.terminar()
 	}
@@ -201,7 +210,6 @@ class Vim {
 		estadoCivil = unEstadoCivil
 	}
 	method estaEnPareja(){
-
 		return (estadoCivil == enPareja)
 	}
 
@@ -335,5 +343,5 @@ class Sim inherits Vim{
 		edad +=1
 	}
 	
-	//12) Si se quisiera contemplar la transformacion de un sim a vim, se tendría que generar una clase abstracta Sim con una variable "tipo" que indique si es "Sim" o "Vim" y que sean objetos polimorficos. En estos objetos incluiriamos metodos como morderA() que transforme desde un vim a sim, pero de un sim a otro sim no haga nada. 
+	//12) Si se quisiera contemplar la transformacion de un sim a vim, se tendrÃ­a que generar una clase abstracta Sim con una variable "tipo" que indique si es "Sim" o "Vim" y que sean objetos polimorficos. En estos objetos incluiriamos metodos como morderA() que transforme desde un vim a sim, pero de un sim a otro sim no haga nada. 
 }

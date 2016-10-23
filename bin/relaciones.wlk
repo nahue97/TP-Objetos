@@ -9,13 +9,14 @@ import sim.*
 class Relacion {
 	var nuevoCirculoDeAmigos
 	var relacion
-	var estadoDeRelacion = "En Curso"
-	//Validar estados por String no esta bueno!
-	
 	
 	constructor (unSim,otroSim,listaDeAmigos,otraListaDeAmigos){
 		nuevoCirculoDeAmigos = [listaDeAmigos,otraListaDeAmigos].flatten().asSet()
 		relacion = [unSim,otroSim]
+		unSim.setPareja(otroSim)
+		otroSim.setPareja(unSim)
+		unSim.setRelacion(self)
+		otroSim.setRelacion(self)
 	}
 	method circuloDeAmigos(){
 		return nuevoCirculoDeAmigos
@@ -32,18 +33,39 @@ class Relacion {
 	method miembros(){
 		return relacion
 	}
-	method terminar(){
-		estadoDeRelacion = "Terminada" // IDEM
-		
-		relacion.first().ponerseSoltero()
-		relacion.last().ponerseSoltero()
-	}
-	method estadoDeRelacion(){
-		return estadoDeRelacion
+	method terminar(){		
+		relacion.first().estadoCivil().terminarRelacion(relacion.first())
+		relacion.last().estadoCivil().terminarRelacion(relacion.last())
 	}
 }
-object soltero {
+
+object soltero{
+	var relacion
+	method iniciarRelacion(unSim, otroSim){
+		if (otroSim.estadoCivil() == self){
+			relacion = new Relacion(unSim, otroSim, unSim.amigos(), otroSim.amigos())
+			otroSim.cambiarEstadoCivil(enPareja)
+			unSim.cambiarEstadoCivil(enPareja)
+			}
+			else error.throwWithMessage("El otro sim está en pareja")
+	}
+	method terminarRelacion(unSim){
+		error.throwWithMessage("No es posible terminar una relación no empezada")
+	}
+}
+
+object enPareja{
+	method iniciarRelacion(unSim,otroSim){
+		error.throwWithMessage("El sim ya está en pareja con otro Sim")
+	}
+	method terminarRelacion(unSim){
+		unSim.cambiarEstadoCivil(soltero)
+	}
+}
+
+object femenino{
 	
 }
-object masculino{}
-object femenino{}
+object masculino{
+	
+}
