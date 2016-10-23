@@ -5,6 +5,7 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 import sim.*
+import fuentesDeInformacion.*
 
 class Relacion {
 	var nuevoCirculoDeAmigos

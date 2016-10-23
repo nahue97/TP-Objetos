@@ -4,6 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
+import fuentesDeInformacion.*
 class Vim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
@@ -260,8 +261,8 @@ class Vim {
 	}
 	
 	// Informacion y conocimiento----------------------------------------------------------------------------------
-	method adquirirConocimiento(fuente){
-		conocimiento.add(fuente.darInformacion())
+	method adquirirConocimiento(informacion){
+		conocimiento.add(informacion)
 	}
 	method nivelDeConocimiento(){
 		return conocimiento.map({frase => frase.size()}).sum()
@@ -297,6 +298,10 @@ class Vim {
 	method darInformacion(){
 		return self.secretoRandom(amigos.random())
 	}
+	method adquirirConocimientoPorFuente(fuente){
+		conocimiento.add(fuente.darInformacion())
+	}
+	
 	// CELOS---------------------------------------------------------------------------------------------------------
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){

@@ -1,3 +1,11 @@
+import abrazos.*
+import celos.*
+import estados.*
+import personalidades.*
+import trabajos.*
+import relaciones.*
+import sim.*
+
 class Libro {
 	var capitulos 
 	constructor (textos) {

@@ -6,6 +6,7 @@ import trabajos.*
 import relaciones.*
 import sim.*
 import pruebas.*
+import fuentesDeInformacion.*
 //Faltan probar funcionalidades, tienen que probar todos los casos de cada punto, 
 //Por ejemplo en abrazos, falta el otro tipo de abrazo, que si se fijan en este momento falla
 
@@ -133,23 +134,23 @@ test "carla inicia una relacion con leandro, se chequea si leandro es parte de l
 
 test "carla inicia una relacion con leandro, se chequea si carla esta en pareja"{
 	fixture.carlaYLeandro()
-	assert.equals(carla,carla.relacion().miembros().first())
+	assert.equals(true,carla.estaEnPareja())
 }
 
 //13)Hacer que una relacion termine, haciendo que sus miembros dejen de formar parte de ella
 test "carla tiene una relacion con leandro, se termina y se chequea que carla esté soltera"{
 	fixture.carlaYLeandroTerminan()
-		assert.equals(soltero,carla.pareja())
+	assert.equals(soltero,carla.estadoCivil())
 }
 
 test "leandro tiene una relacion con carla, se termina y se chequea que leandro esté soltero"{
 	fixture.carlaYLeandroTerminan()
-		assert.equals(soltero,leandro.pareja())
+	assert.equals(soltero,leandro.estadoCivil())
 }
 //14) Saber si una relacion terminó
 test " la relacion de carla y leandro terminó y se fija que la relacion se indique como terminada"{
 		fixture.carlaYLeandroTerminan()
-		assert.equals("Terminada",carla.relacion().estadoDeRelacion())
+		assert.equals(false,carla.relacion().relacionEnCurso())
 }
 //15) Conocer el circulo de amigos de la relación
 test "carla y leandro forman una relacion y se ve el círculo de amigos de la relación"{
@@ -228,6 +229,16 @@ test"Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito
 	pepito.cambiarDeAnimo(soniador)
 	assert.that(pepito.conocimiento().isEmpty())
 }
+test"El sim feliz tiene un estado de animo normal. Se le cambia el estado a incomodo y se verifica su nivel de felicida"{
+	simFeliz.cambiarDeAnimo(incomodo)
+	assert.equals(300,simFeliz.nivelFelicidad())
+}
+test"El sim feliz tiene un estado de animo normal. Se le cambia el estado a incomodo y se verifica su estado"{
+	simFeliz.cambiarDeAnimo(incomodo)
+	assert.equals(incomodo,simFeliz.estadoDeAnimo())
+}
+
+
 //27)Hacer que a un sim se le vaya su estado de animo actual(Y vuelva a la normalidad)
 test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepito cambia de estado de animo a soñador. Pepito cambia de estado de animo a normal otra vez. Se verifica que el estado de animo de Pepito sea normal"{
 	fixture.contarleConocimientoAPepito()
@@ -249,6 +260,16 @@ test "Pepito tiene un estado de animo normal y se le añaden conocimientos. Pepit
 	pepito.estadoDeAnimo().volverANormalidad(pepito)
 	assert.equals(#{"anchoa","holahola"},pepito.conocimiento())
 }
+test"El sim feliz tiene un estado de animo normal. Se le cambia el estado a incomodo,vuelve a la normalidad y se verifica su nivel de felicida"{
+	simFeliz.cambiarDeAnimo(incomodo)
+	simFeliz.estadoDeAnimo().volverANormalidad(simFeliz)
+	assert.equals(500,simFeliz.nivelFelicidad())
+}
+test"El sim feliz tiene un estado de animo normal. Se le cambia el estado a incomodo,vuelve a la normalidad y se verifica su estado"{
+	simFeliz.cambiarDeAnimo(incomodo)
+	simFeliz.estadoDeAnimo().volverANormalidad(simFeliz)
+	assert.equals(normal,simFeliz.estadoDeAnimo())
+}
 // celos
 //28)Hacer que un sim se ponga celoso por cualquiera de los motivos presentados
 test "pepito adquiere amigos y se pone celoso por plata,chequeo de los amigos que quedaron"{
@@ -260,8 +281,19 @@ test "pepito adquiere amigos y se pone celoso por plata,chequeo de los amigos qu
 test "pepito adquiere amigos y se pone celoso por plata,chequeo de la felicidad"{
 	fixture.pepitoYsusAmigos()
 	pepito.ponerseCeloso(celosPorPlata)
-	assert.equals(45,pepito.nivelFelicidad())
+	assert.equals(55,pepito.nivelFelicidad())
 }
+test "ricardo adquiere amigos y se pone celoso por popularidad chequeo de los amigos que quedaron"{
+	fixture.pepitoYsusAmigos()
+	ricardo.ponerseCeloso(celosPorPopularidad)
+	assert.equals([carla],ricardo.amigos())
+}
+test "ricardo adquiere amigos y se pone celoso por popularidad,chequeo de la felicidad"{
+	fixture.pepitoYsusAmigos()
+	ricardo.ponerseCeloso(celosPorPopularidad)
+	assert.equals(-5,ricardo.nivelFelicidad())
+}
+
 // dinero y trabajo
 //Hacer que un sim vaya a trabajar
 test "pepito un oficinista(tipo de trabajo aburrido) va a trabajar,chequeo del dinero total luego de trabajar"{
@@ -273,7 +305,7 @@ test "pepito un oficinista(tipo de trabajo aburrido) va a trabajar,chequeo del d
 test "pepito un oficinista(tipo de trabajo aburrido) va a trabajar,chequeo de la felicidad luego de trabajar"{
 	fixture.pepitoYsusAmigos()
 	pepito.trabajar()
-	assert.equals(50,pepito.nivelFelicidad())
+	assert.equals(60,pepito.nivelFelicidad())
 }
 
 test "carla una desocupada va a trabajar,chequear que el dinero total sea el mismo que antes de salir a trabajar"{

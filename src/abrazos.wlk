@@ -4,6 +4,7 @@ import estados.*
 import personalidades.*
 import trabajos.*
 import relaciones.*
+import fuentesDeInformacion.*
 
 object abrazoComun{
 	method abrazarA(abrazador,abrazado){

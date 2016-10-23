@@ -5,6 +5,7 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 import sim.*
+import fuentesDeInformacion.*
 
 object soniador{
 	method efecto(unSim){

@@ -5,14 +5,17 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 import sim.*
+import fuentesDeInformacion.*
 
 class Relacion {
 	var nuevoCirculoDeAmigos
 	var relacion
+	var relacionEnCurso
 	
 	constructor (unSim,otroSim,listaDeAmigos,otraListaDeAmigos){
 		nuevoCirculoDeAmigos = [listaDeAmigos,otraListaDeAmigos].flatten().asSet()
 		relacion = [unSim,otroSim]
+		relacionEnCurso = true
 		unSim.setPareja(otroSim)
 		otroSim.setPareja(unSim)
 		unSim.setRelacion(self)
@@ -33,7 +36,11 @@ class Relacion {
 	method miembros(){
 		return relacion
 	}
-	method terminar(){		
+	method relacionEnCurso(){
+		return relacionEnCurso
+	}
+	method terminar(){	
+		relacionEnCurso = false	
 		relacion.first().estadoCivil().terminarRelacion(relacion.first())
 		relacion.last().estadoCivil().terminarRelacion(relacion.last())
 	}
