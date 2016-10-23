@@ -224,9 +224,11 @@ class Vim {
 	method reestablecerRelacionCon(unSim){
 
 			self.terminarRelacion()
+			if (unSim.estadoCivil() != soltero)
+			{
+				unSim.terminarRelacion()
+			}
 			self.iniciarRelacionCon(unSim)
-			unSim.terminarRelacion()
-			unSim.iniciarRelacionCon(self)
 		}
 	
 	//Valoracion-----------------------------------------------------------------------------------------------------

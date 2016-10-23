@@ -56,7 +56,7 @@ object fixture{
 	}
 	method carlaYLeandroTerminan(){
 		self.carlaYLeandro()
-		carla.relacion().terminarRelacion()
+		carla.relacion().terminar()
 	}
 	method leandroYPepito(){
 		self.amigosDeLeandro()
