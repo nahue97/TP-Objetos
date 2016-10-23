@@ -133,23 +133,23 @@ test "carla inicia una relacion con leandro, se chequea si leandro es parte de l
 
 test "carla inicia una relacion con leandro, se chequea si carla esta en pareja"{
 	fixture.carlaYLeandro()
-	assert.equals(carla,carla.relacion().miembros().first())
+	assert.equals(true,carla.estaEnPareja())
 }
 
 //13)Hacer que una relacion termine, haciendo que sus miembros dejen de formar parte de ella
 test "carla tiene una relacion con leandro, se termina y se chequea que carla esté soltera"{
 	fixture.carlaYLeandroTerminan()
-		assert.equals(soltero,carla.pareja())
+	assert.equals(soltero,carla.estadoCivil())
 }
 
 test "leandro tiene una relacion con carla, se termina y se chequea que leandro esté soltero"{
 	fixture.carlaYLeandroTerminan()
-		assert.equals(soltero,leandro.pareja())
+	assert.equals(soltero,leandro.estadoCivil())
 }
 //14) Saber si una relacion terminó
 test " la relacion de carla y leandro terminó y se fija que la relacion se indique como terminada"{
 		fixture.carlaYLeandroTerminan()
-		assert.equals("Terminada",carla.relacion().estadoDeRelacion())
+		assert.equals(false,carla.relacion().relacionEnCurso())
 }
 //15) Conocer el circulo de amigos de la relación
 test "carla y leandro forman una relacion y se ve el círculo de amigos de la relación"{
