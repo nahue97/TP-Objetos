@@ -7,8 +7,7 @@ import relaciones.*
 import sim.*
 import pruebas.*
 import fuentesDeInformacion.*
-//Faltan probar funcionalidades, tienen que probar todos los casos de cada punto, 
-//Por ejemplo en abrazos, falta el otro tipo de abrazo, que si se fijan en este momento falla
+
 
 //abrazos
 //1)Hacer que un sim abrace a otro
@@ -362,8 +361,38 @@ test "leandro un presidente(tipo de trabajo copado) de personalidad buenazo va a
 }
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
-//TEST 2da entrega
 
+//TEST 2da entrega
+//Prestamos
+test "saber cuantos simoleones puede prestarle Pepa (superficial) a Carla" {
+	carla.hacerseAmigoDe(leandro)
+	assert.equals(1000,pepa.personalidad().prestar(pepo,carla))
+}
+test "Pepa le presta 500 simoleones a Carla"{
+	carla.hacerseAmigoDe(leandro)
+	pepa.prestarDinero(500,carla)
+	assert.equals(600,carla.dinero())
+}
+test "Carla recibe 500 prestados de Pepa, disminuye el dinero de Pepa"{
+	carla.hacerseAmigoDe(leandro)
+	pepa.prestarDinero(500,carla)
+	assert.equals(16000,pepa.dinero())
+}
+test "Carla trata de darle 2000 simoleones a Pepa pero no puede"{
+	carla.hacerseAmigoDe(leandro)
+	assert.throwsException({pepa.prestarDinero(2000,carla)})
+}
+test "saber cuantos simoleones puede prestarle pepito(interesado) a Carla"{
+	assert.equals(100,pepito.personalidad().prestar(pepito,carla))
+}
+//Relaciones
+test "Carla quiere iniciar una relación con ricardo, pero está de novia con Leandro"{
+	fixture.carlaYLeandro()
+	assert.throwsException({carla.iniciarRelacionCon(ricardo)})
+}
+test "Pepa quiere iniciar una relación con tomasito, pero este último tiene menos de 16 años"{
+	assert.throwsException({pepa.iniciarRelacionCon(tomasito)})
+}
 //Chismes
 test "pepito adquiere conocimiento, y una cantidad de amigos y se chequea que si un conocimiento de pepito es secreto"{
 	fixture.pepitoYsusAmigos()
@@ -388,7 +417,7 @@ test "pepito se hace amigo de carla, adquiere conocimiento y se intenta difundir
 	assert.equals(#{ }, carla.conocimiento())
 }
 
-test "Pepito iba a trabajar a un  va a trabajar a un trabajo aburrido con 65 de felicidad, y perdía 5 de felicidad (terminaba en 60). Ahora Airton, su gemelo, que tiene las mismas características que él pero distinto trabajo, va a un trabajo super aburrido y pierde 10 * 5 de felicidad (5 es N), termina en 40."{
+test "Pepito iba (en un test anterior) a trabajar a un trabajo aburrido con 65 de felicidad, y perdía 5 de felicidad (terminaba en 60). Ahora Airton, su gemelo, que tiene las mismas características que él pero distinto trabajo, va a un trabajo super aburrido y pierde 5 * 5 de felicidad (5 es N), termina en 40."{
 	fixture.airtonYSusAmigos()
 	airton.trabajar()
 	assert.equals(40, airton.nivelFelicidad())
@@ -412,6 +441,37 @@ test "Leandro va a trabajar a un trabajo copado y su estado de ánimo cambia a no
 	leandro.cambiarDeAnimo(incomodo)
 	leandro.trabajar()
 	assert.equals(normal, leandro.estadoDeAnimo())
+}
+//Fuentes de info
+test "pepito adquiere conocimiento de tinelli,se chequea si pepito aprendio el conocimiento"{
+	pepito.adquirirConocimientoPorFuente(tinelli)
+	assert.that(pepito.conocimiento().contains("toto"))
+}
+test "pepito adquiere conocimiento de rial, se chequea si pepito aprendio el conocimiento"{
+	pepito.adquirirConocimientoPorFuente(rial)
+	assert.that(pepito.conocimiento().contains("escandalo"))	
+}
+//ESTOS DOS TESTS DEBERIAN FUNCIONAR SI FUNCIONASE RANDOM
+test "pepito adquiere conocimiento de LibroDeLaSelva, se chequea si pepito aprendio el conocimiento"{
+	pepito.adquirirConocimientoPorFuente(libroDeLaSelva)
+	assert.that (not(pepito.conocimiento().isEmpty()))
+}
+test "carla adquiere conocimiento de pepito"{
+	pepito.hacerseAmigoDe(ricardo)
+	ricardo.adquirirConocimiento("unSecreto")
+	carla.adquirirConocimientoPorFuente(pepito)
+	assert.that(carla.conocimiento().contains("unSecreto"))
+}
+
+
+// Vims
+test "pepito cumple anios chequeo de edad"{
+	pepito.cumplirAnios()
+	assert.equals(21,pepito.edad())
+}
+test "un vim cumple anios chequeo de edad"{
+	vim.cumplirAnios()
+	assert.equals(18,vim.edad())	
 }
 
 

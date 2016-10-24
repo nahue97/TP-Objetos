@@ -27,7 +27,9 @@ object pepa inherits Sim(5,superficial,ladron,16500,masculino,femenino,45){}
 object simFeliz inherits Sim(500,superficial,presidente,16500,masculino,femenino,45){}
 object airton inherits Sim(5,interesado,granadero,500,femenino,masculino,20){}
 object cristinakirchner inherits Sim(100,interesado,abogadaexitosa,1000000,masculino,femenino,63){}
-
+object vim inherits Vim(500,superficial,presidente,16500,masculino,femenino){}
+object libroDeLaSelva inherits Libro(["cap1","cap2","cap3"]){}
+object tomasito inherits Sim(5, buenazo, desocupado, 100,femenino, masculino, 14){}
 
 
 object fixture{

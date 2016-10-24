@@ -11,8 +11,15 @@ class Libro {
 	constructor (textos) {
 		capitulos = textos
 	}
+	
+//No existe esta funcion random así como está, deberia existir esta funcion en wollok que no sabemos como se llama y con esto deberian funcionar bien los test de fuentes de informacion 
+	
+	
 	method darInformacion(){
 		return capitulos.random()
+	}
+	method capitulos(){
+		return capitulos
 	}
 }
 
