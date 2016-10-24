@@ -315,7 +315,7 @@ class Vim {
 		amigos = amigos.filter({amigo =>tipoDeCelo.filtrarRazon(amigo,self)})
 		}
 	}
-// pretamos--------------------------------------------------
+	// Prestamos--------------------------------------------------
 
 method prestarDinero(cantidadDinero,otroSim){
 	if(self.puedePrestar(cantidadDinero,otroSim)){
@@ -331,16 +331,6 @@ method puedePrestar(cantidadDinero,otroSim){
 	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) >= cantidadDinero)
 	}	
 }
-//--------------------------------------------ACA TERMINA LA CLASE VIM---------------------------------------------------
-
-object masculino{
-	
-}
-object femenino{
-	
-}
-
-//En general, tener clases, objetos vacios sin comportamiento esta mal
 
 //--------------------------------------------SIM---------------------------------------------------
 class Sim inherits Vim{

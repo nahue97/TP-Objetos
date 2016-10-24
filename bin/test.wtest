@@ -7,9 +7,7 @@ import relaciones.*
 import sim.*
 import pruebas.*
 import fuentesDeInformacion.*
-//Faltan probar funcionalidades, tienen que probar todos los casos de cada punto, 
-//Por ejemplo en abrazos, falta el otro tipo de abrazo, que si se fijan en este momento falla
-
+/* 
 //abrazos
 //1)Hacer que un sim abrace a otro
 test "pepito abraza a carla y se ve su felicidad"{
@@ -362,6 +360,7 @@ test "leandro un presidente(tipo de trabajo copado) de personalidad buenazo va a
 }
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
+*/
 //TEST 2da entrega
 //Prestamos
 test "saber cuantos simoleones puede prestarle Pepa (superficial) a Carla" {
@@ -384,6 +383,14 @@ test "Carla trata de darle 2000 simoleones a Pepa pero no puede"{
 }
 test "saber cuantos simoleones puede prestarle pepito(interesado) a Carla"{
 	assert.equals(100,pepito.personalidad().prestar(pepito,carla))
+}
+//Relaciones
+test "Carla quiere iniciar una relación con ricardo, pero está de novia con Leandro"{
+	fixture.carlaYLeandro()
+	assert.throwsException({carla.iniciarRelacionCon(ricardo)})
+}
+test "Pepa quiere iniciar una relación con tomasito, pero este último tiene menos de 16 años"{
+	assert.throwsException({pepa.iniciarRelacionCon(tomasito)})
 }
 //Chismes
 test "pepito adquiere conocimiento, y una cantidad de amigos y se chequea que si un conocimiento de pepito es secreto"{
