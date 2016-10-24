@@ -14,6 +14,9 @@ class Libro {
 	method darInformacion(){
 		return capitulos.random()
 	}
+	method capitulos(){
+		return capitulos
+	}
 }
 
 object tinelli {

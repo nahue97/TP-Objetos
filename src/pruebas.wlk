@@ -23,6 +23,8 @@ object juan inherits Sim(5,interesado,ladron,3500,femenino,masculino,40){}
 object martha inherits Sim(20,interesado,desocupado,15000,masculino,femenino,95){}
 object pepa inherits Sim(5,superficial,ladron,16500,masculino,femenino,45){}
 object simFeliz inherits Sim(500,superficial,presidente,16500,masculino,femenino,45){}
+object vim inherits Vim(500,superficial,presidente,16500,masculino,femenino){}
+object libroDeLaSelva inherits Libro(["cap1","cap2","cap3"]){}
 
 
 

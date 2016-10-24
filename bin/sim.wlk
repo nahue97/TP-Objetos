@@ -320,14 +320,16 @@ class Vim {
 method prestarDinero(cantidadDinero,otroSim){
 	if(self.puedePrestar(cantidadDinero,otroSim)){
 		dinero -= cantidadDinero
-		otroSim.dineroAGanar(cantidadDinero)
+		otroSim.ganarDinero(cantidadDinero)
 	}
-	error.throwWithMessage("No puede prestar Dinero")
+	else{
+		error.throwWithMessage("No puede prestar Dinero")
+		}
+		
 }
 method puedePrestar(cantidadDinero,otroSim){
-	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) < cantidadDinero)
-	}
-	
+	return (self.dinero() > cantidadDinero && personalidad.prestar(self,otroSim) >= cantidadDinero)
+	}	
 }
 //--------------------------------------------ACA TERMINA LA CLASE VIM---------------------------------------------------
 
