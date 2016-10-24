@@ -385,8 +385,35 @@ test "pepito se hace amigo de carla, adquiere conocimiento y se intenta difundir
 	pepito.hacerseAmigoDe(carla)
 	fixture.contarleConocimientoAPepito()
 	pepito.difundir("holahola")
-	assert.equals(#{},carla.conocimiento())
+	assert.equals(#{ }, carla.conocimiento())
 }
+
+test "Pepito iba (en un test anterior) a trabajar a un trabajo aburrido con 65 de felicidad, y perdía 5 de felicidad (terminaba en 60). Ahora Airton, su gemelo, que tiene las mismas características que él pero distinto trabajo, va a un trabajo super aburrido y pierde 5 * 5 de felicidad (5 es N), termina en 40."{
+	fixture.airtonYSusAmigos()
+	airton.trabajar()
+	assert.equals(40, airton.nivelFelicidad())
+}
+
+test "Cristina Kirchner tiene 6 amigos, va a trabajar a un trabajo Mercenario Social y gana 20106 pesos (1.000.000 * 1.02 + 100 + 6 * 1)"{ 
+	fixture.laKristiYSusKumpas()
+	cristinakirchner.trabajar()
+	assert.equals(1020106, cristinakirchner.dinero())
+}
+
+test "Desempleado va a trabajar y su estado de ánimo se mantiene igual"{
+	fixture.amigosDeCarla()
+	var estadoPrevio = carla.estadoDeAnimo()
+	carla.trabajar()
+	assert.equals(estadoPrevio, carla.estadoDeAnimo())
+}
+
+test "Leandro va a trabajar a un trabajo copado y su estado de ánimo cambia a normal"{
+	fixture.amigosDeLeandro()
+	leandro.cambiarDeAnimo(incomodo)
+	leandro.trabajar()
+	assert.equals(normal, leandro.estadoDeAnimo())
+}
+
 
 
 

@@ -12,6 +12,8 @@ import fuentesDeInformacion.*
 object oficinista inherits Aburrido(1000,5){}
 object ladron inherits Mercenario{}
 object presidente inherits Copado(1000,100){}
+object granadero inherits SuperAburrido(1000, 5, 5){}
+object abogadaexitosa inherits MercenarioSocial{}
 
 
 object pepito inherits Sim(5,interesado,oficinista,500,femenino,masculino,20){}
@@ -23,10 +25,20 @@ object juan inherits Sim(5,interesado,ladron,3500,femenino,masculino,40){}
 object martha inherits Sim(20,interesado,desocupado,15000,masculino,femenino,95){}
 object pepa inherits Sim(5,superficial,ladron,16500,masculino,femenino,45){}
 object simFeliz inherits Sim(500,superficial,presidente,16500,masculino,femenino,45){}
+object airton inherits Sim(5,interesado,granadero,500,femenino,masculino,20){}
+object cristinakirchner inherits Sim(100,interesado,abogadaexitosa,1000000,masculino,femenino,63){}
 
 
 
 object fixture{
+	method laKristiYSusKumpas(){
+		cristinakirchner.hacerseAmigoDe(pepito)
+		cristinakirchner.hacerseAmigoDe(carla)
+		cristinakirchner.hacerseAmigoDe(pepa)
+		cristinakirchner.hacerseAmigoDe(airton)
+		cristinakirchner.hacerseAmigoDe(martha)
+		cristinakirchner.hacerseAmigoDe(ricardo)
+	}
 	method pepitoYsusAmigos(){
 		ricardo.hacerseAmigoDe(pepito)
 		ricardo.hacerseAmigoDe(carla)
@@ -35,6 +47,16 @@ object fixture{
 		pepito.hacerseAmigoDe(leandro)
 		pepito.hacerseAmigoDe(ricardo)
 		pepito.hacerseAmigoDe(juan)
+		leandro.trabajar()
+	}
+	method airtonYSusAmigos() {
+		ricardo.hacerseAmigoDe(airton)
+		ricardo.hacerseAmigoDe(carla)
+		airton.hacerseAmigoDe(carla)
+		airton.hacerseAmigoDe(pepo)
+		airton.hacerseAmigoDe(leandro)
+		airton.hacerseAmigoDe(ricardo)
+		airton.hacerseAmigoDe(juan)
 		leandro.trabajar()
 	}
 	method contarleConocimientoAPepito(){
@@ -63,6 +85,7 @@ object fixture{
 		self.pepitoYsusAmigos()
 		leandro.iniciarRelacionCon(pepito)
 	}
+	
 }
 object masculino{}
 object femenino{}
