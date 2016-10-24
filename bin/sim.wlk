@@ -5,10 +5,10 @@ import personalidades.*
 import trabajos.*
 import relaciones.*
 import fuentesDeInformacion.*
-class Vim {
+class Sim {
 	var amigos = []
 	var sexo// = masculino, femenino (SE INICIALIZA)
-	var edad = 18// = 1,2,3,4,5,6... (SE INICIALIZA)
+	var edad// = 1,2,3,4,5,6... (SE INICIALIZA)
 	var nivelFelicidad
 	var personalidad // = interesado, superficial, buenazo, peleadoConLaVida (SE INICIALIZA)
 	var trabajo// = Copado,Mercenario,Aburrido,Desocupado (SE INICIALIZA)
@@ -20,8 +20,9 @@ class Vim {
 	var pareja 
 	var conocimientoPerdido = #{}
 	var relacion
+	var fuentesDeInformacion = #{}
 	
-	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaFuente,unaEdad)
 	{
 	nivelFelicidad = unaFelicidad
 	personalidad = unaPersonalidad
@@ -29,6 +30,8 @@ class Vim {
 	dinero = unDinero
 	preferencia = unaPreferencia
 	sexo = unSexo
+	edad = unaEdad
+	fuentesDeInformacion = unaFuente
 	}
 	//METODOS GETTER----------------------------------------------------------------------------------------------
 	method trabajo(){
@@ -122,6 +125,7 @@ class Vim {
 		dinero += dineroAGanar
 	}
 	method cumplirAnios(){
+		edad +=1
 	}
 	
 	//AMISTAD y Valoracion----------------------------------------------------------------------------------------------------
@@ -289,21 +293,26 @@ class Vim {
 	method tieneSecreto(){
 		return self.conocimiento().any({informacion=>self.secreto(informacion)})
 	}
-	method secretoRandom(unSim){
-	if (unSim.tieneSecreto()){
-		return unSim.conocimiento().filter({informacion=> unSim.secreto(informacion)}).random()
+	method secretoRandom(){
+	if (self.tieneSecreto()){
+		return self.conocimiento().filter({informacion=> self.secreto(informacion)}).anyOne()
 	}
 	else {
 		return null
 	}
 	}
 	method darInformacion(){
-		return self.secretoRandom(amigos.random())
+		return amigos.anyOne().secretoRandom()
 	}
 	method adquirirConocimientoPorFuente(fuente){
 		conocimiento.add(fuente.darInformacion())
 	}
-	
+	method informarse(){
+		fuentesDeInformacion.forEach({fuente => self.adquirirConocimientoPorFuente(fuente)})
+	}
+	method agregarFuenteDeInformacion(fuente){
+		fuentesDeInformacion.add(fuente)
+	}
 	// CELOS---------------------------------------------------------------------------------------------------------
 	method ponerseCeloso(tipoDeCelo){
 		if (tipoDeCelo == celosPorPareja && pareja == soltero){
@@ -333,13 +342,13 @@ method puedePrestar(cantidadDinero,otroSim){
 }
 
 //--------------------------------------------SIM---------------------------------------------------
-class Sim inherits Vim{
-	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaEdad) = super(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo)
+class Vim inherits Sim{
+	constructor(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaFuente,unaEdad) = super(unaFelicidad, unaPersonalidad, unTrabajo, unDinero, unaPreferencia,unSexo,unaFuente,18)
 	{
-	edad = unaEdad
+	edad = 18
 	}
 	override method cumplirAnios(){
-		edad +=1
+		
 	}
 	
 	//12) Si se quisiera contemplar la transformacion de un sim a vim, se tendría que generar una clase abstracta Sim con una variable "tipo" que indique si es "Sim" o "Vim" y que sean objetos polimorficos. En estos objetos incluiriamos metodos como morderA() que transforme desde un vim a sim, pero de un sim a otro sim no haga nada. 

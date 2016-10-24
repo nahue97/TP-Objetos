@@ -442,6 +442,7 @@ test "Leandro va a trabajar a un trabajo copado y su estado de ánimo cambia a no
 	leandro.trabajar()
 	assert.equals(normal, leandro.estadoDeAnimo())
 }
+
 //Fuentes de info
 test "pepito adquiere conocimiento de tinelli,se chequea si pepito aprendio el conocimiento"{
 	pepito.adquirirConocimientoPorFuente(tinelli)
@@ -463,7 +464,13 @@ test "carla adquiere conocimiento de pepito"{
 	assert.that(carla.conocimiento().contains("unSecreto"))
 }
 
-
+test "Carla adquiere conocimiento de Todas sus fuentes (son 4 fuentes)"{
+	pepito.hacerseAmigoDe(ricardo)
+	ricardo.adquirirConocimiento("unSecreto")
+	carla.agregarFuenteDeInformacion(pepito)
+	carla.informarse()
+	assert.equals(4,carla.conocimiento().size())
+}
 // Vims
 test "pepito cumple anios chequeo de edad"{
 	pepito.cumplirAnios()
