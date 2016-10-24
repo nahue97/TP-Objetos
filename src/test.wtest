@@ -7,7 +7,8 @@ import relaciones.*
 import sim.*
 import pruebas.*
 import fuentesDeInformacion.*
-/* 
+
+
 //abrazos
 //1)Hacer que un sim abrace a otro
 test "pepito abraza a carla y se ve su felicidad"{
@@ -360,7 +361,7 @@ test "leandro un presidente(tipo de trabajo copado) de personalidad buenazo va a
 }
 
 //30) En la parte de requerimientos encontramos que la mayoría de los testeos se repetía lógica, por lo tanto creamos un archivo .wlk aparte llamado "pruebas.wlk" donde allí creamos los objetos y algunas funciones a utilizar
-*/
+
 //TEST 2da entrega
 //Prestamos
 test "saber cuantos simoleones puede prestarle Pepa (superficial) a Carla" {
@@ -424,6 +425,18 @@ test "pepito adquiere conocimiento de rial, se chequea si pepito aprendio el con
 	pepito.adquirirConocimientoPorFuente(rial)
 	assert.that(pepito.conocimiento().contains("escandalo"))	
 }
+//Estos dos test deberian funcionar si funcionase random.
+test "pepito adquiere conocimiento de LibroDeLaSelva, se chequea si pepito aprendio el conocimiento"{
+	pepito.adquirirConocimientoPorFuente(libroDeLaSelva)
+	assert.that (not(pepito.conocimiento().isEmpty()))
+}
+test "carla adquiere conocimiento de pepito"{
+	pepito.hacerseAmigoDe(ricardo)
+	ricardo.adquirirConocimiento("unSecreto")
+	carla.adquirirConocimientoPorFuente(pepito)
+	assert.that(carla.conocimiento().contains("unSecreto"))
+}
+
 
 // Vims
 test "pepito cumple anios chequeo de edad"{
